@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "module": "commonjs",
+        "target": "es5",
+        "lib": [
+            "esnext",
+            "dom",
+            "dom.iterable"
+        ],
+        "outDir": ".",
+        "declaration": true,
+        "declarationMap": true,
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react",
+        "allowJs": true,
+        "baseUrl": "./",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "downlevelIteration": true,
+        "skipLibCheck": true,
+        "paths": {
+            "react-edit-list": ["./src"]
+        }
+    },
+    "include": [
+        "./src"
+    ],
+    "exclude": [],
+    "ts-node": {
+        "transpileOnly": true
+    }
+}
