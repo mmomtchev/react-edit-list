@@ -10,7 +10,7 @@ Still not published
 
 # Usage
 
-
+![screenshot](https://raw.githubusercontent.com/mmomtchev/react-edit-list/main/react-edit-list.png)
 
 ```tsx
 import * as React from 'react';
