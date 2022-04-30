@@ -1,9 +1,9 @@
 // This webpack builds the examples, the library dist files are built with tsc
-import path from "path";
-import webpack, {Configuration} from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import {TsconfigPathsPlugin} from "tsconfig-paths-webpack-plugin";
+import path from 'path';
+import webpack, {Configuration} from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import {TsconfigPathsPlugin} from 'tsconfig-paths-webpack-plugin';
 
 const webpackConfig = (env): Configuration => ({
     entry: './examples/index.tsx',
@@ -71,7 +71,9 @@ const webpackConfig = (env): Configuration => ({
         })
     ],
     devServer: {
-        port: 8030
+        host: '0.0.0.0',
+        port: 8030,
+        allowedHosts: ['auto']
     }
 });
 
