@@ -16,17 +16,27 @@ export default function ReactEditList(props: Props): JSX.Element {
         <table className={props.className}>
             {props.headers !== null ? (
                 <thead className={props.headClassName}>
-                    <tr>
+                    <tr className={props.trClassName}>
                         {Object.keys(props.schema).map((k) => {
                             if (props.schema[k] === 'id') return null;
-                            if (props.headers?.[k]) return <th key={k}>{props.headers[k]}</th>;
-                            return <th key={k}>{k}</th>;
+                            const className = props.thClassName?.[k] || props.thClassName;
+                            if (props.headers?.[k])
+                                return (
+                                    <th className={className} key={k}>
+                                        {props.headers[k]}
+                                    </th>
+                                );
+                            return (
+                                <th className={className} key={k}>
+                                    {k}
+                                </th>
+                            );
                         })}
-                        <th></th>
+                        <th className={props.thClassName?.['buttons'] || props.thClassName}></th>
                     </tr>
                 </thead>
             ) : null}
-            <tbody>
+            <tbody className={props.bodyClassName}>
                 {data.map((item) => (
                     <Item
                         key={getKey(idField, item)}
@@ -38,21 +48,23 @@ export default function ReactEditList(props: Props): JSX.Element {
                         btnDeleteClassName={props.btnDeleteClassName}
                         btnValidateElement={props.btnValidateElement}
                         btnDeleteElement={props.btnDeleteElement}
-                        onChange={(field: string, value: Value) => {
-                            let modified = {...item};
-                            modified[field] = value;
+                        btnCancelClassName={props.btnCancelClassName}
+                        btnCancelElement={props.btnCancelElement}
+                        inputClassName={props.inputClassName}
+                        trClassName={props.trClassName}
+                        tdClassName={props.tdClassName}
+                        onChange={(modified: Row) => {
                             if (props.onUpdate) {
                                 const update = props.onUpdate(modified, item);
-                                if (update === false) return;
+                                if (update === false) return false;
                                 if (typeof update === 'object') modified = update;
                             }
+                            const modifiedData = [...data];
+                            modifiedData[modifiedData.findIndex((x) => x === item)] = modified;
                             if (props.onChange) {
-                                const modifiedData = [...data];
-                                modifiedData[modifiedData.findIndex((x) => x === item)] = modified;
-                                if (props.onChange(modifiedData) === false) return;
+                                if (props.onChange(modifiedData) === false) return false;
                             }
-                            item[field] = value;
-                            setData([...data]);
+                            setData([...modifiedData]);
                         }}
                         onDelete={() => {
                             if (props.onDelete) {
@@ -68,24 +80,28 @@ export default function ReactEditList(props: Props): JSX.Element {
                     schema={props.schema}
                     format={props.format}
                     idField={idField}
+                    item={props.defaultValues}
                     btnValidateClassName={props.btnValidateClassName}
                     btnDeleteClassName={props.btnDeleteClassName}
                     btnValidateElement={props.btnValidateElement}
                     btnDeleteElement={props.btnDeleteElement}
-                    onChange={(field: string, value: Value) => {
-                        let item = {};
-                        item[field] = value;
+                    btnCancelClassName={props.btnCancelClassName}
+                    btnCancelElement={props.btnCancelElement}
+                    inputClassName={props.inputClassName}
+                    trClassName={props.trClassName}
+                    tdClassName={props.tdClassName}
+                    onChange={(modified: Row) => {
                         if (props.onInsert) {
-                            const update = props.onInsert(item);
-                            if (update === false) return;
-                            if (typeof update === 'object') item = update;
+                            const update = props.onInsert(modified);
+                            if (update === false) return false;
+                            if (typeof update === 'object') modified = update;
                         }
                         if (props.onChange) {
                             const modifiedData = [...data];
-                            modifiedData.push(item);
-                            if (props.onChange(modifiedData) === false) return;
+                            modifiedData.push(modified);
+                            if (props.onChange(modifiedData) === false) return false;
                         }
-                        data.push(item);
+                        data.push(modified);
                         setData([...data]);
                     }}
                 />

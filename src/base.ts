@@ -4,7 +4,12 @@ export type element = 'id' | 'string' | 'number' | Record<string, string>;
 
 export type Schema = Record<string, element>;
 export type Formatter = (props: {value: Value; opts: unknown}) => JSX.Element;
-export type Editor = (props: {value: Value; opts: unknown; onChange; onUpdate}) => JSX.Element;
+export type Editor = (props: {
+    value: Value;
+    opts?: unknown;
+    className?: string;
+    onChange: (value: Value) => void;
+}) => JSX.Element;
 export type Value = number | string | null | undefined;
 export type Row = Record<string, Value>;
 
@@ -67,6 +72,11 @@ export interface Props {
     onDelete?: (item: Row) => boolean | void;
 
     /**
+     * Optional default values for new elements
+     */
+    defaultValues?: Row;
+
+    /**
      * Optional CSS class name
      */
     className?: string;
@@ -82,9 +92,39 @@ export interface Props {
     btnDeleteClassName?: string;
 
     /**
-     * Optional delete button class name
+     * Optional cancel button class name
+     */
+    btnCancelClassName?: string;
+
+    /**
+     * Optional table head class name
      */
     headClassName?: string;
+
+    /**
+     * Optional table body class name
+     */
+    bodyClassName?: string;
+
+    /**
+     * Optional table TR class name
+     */
+    trClassName?: string;
+
+    /**
+     * Optional table TH class name
+     */
+    thClassName?: string | Record<string, string>;
+
+    /**
+     * Optional table TD class name
+     */
+    tdClassName?: string | Record<string, string>;
+
+    /**
+     * Optional table INPUT class name
+     */
+    inputClassName?: string;
 
     /**
      * Optional custom button element
@@ -95,6 +135,11 @@ export interface Props {
      * Optional custom button element
      */
     btnDeleteElement?: JSX.Element;
+
+    /**
+     * Optional custom button element
+     */
+    btnCancelElement?: JSX.Element;
 
     /**
      * Disable updating

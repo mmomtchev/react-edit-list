@@ -17,48 +17,40 @@ function DefaultFormatEnum(props: {value: Value; opts: unknown}): JSX.Element {
     return <React.Fragment>{props.opts[props.value]}</React.Fragment>;
 }
 
-function DefaultEditNumber(props: {value: Value; opts: unknown; onChange; onUpdate}) {
-    const onKeyDown = React.useCallback(
-        (event) => {
-            if (event.keyCode == 13) {
-                props.onUpdate();
-            }
-        },
-        [props]
-    );
+function DefaultEditNumber(props: {
+    value: Value;
+    opts?: unknown;
+    className?: string;
+    onChange: (v: Value) => void;
+}) {
     const onChange = React.useCallback((e) => props.onChange(+e.target.value), [props]);
     return (
-        <input defaultValue={props.value} type='number' onChange={onChange} onKeyDown={onKeyDown} />
+        <input className={props.className} value={props.value} type='number' onChange={onChange} />
     );
 }
 
-function DefaultEditString(props: {value: Value; opts: unknown; onChange; onUpdate}) {
-    const onKeyDown = React.useCallback(
-        (event) => {
-            if (event.keyCode == 13) {
-                props.onUpdate();
-            }
-        },
-        [props]
-    );
+function DefaultEditString(props: {
+    value: Value;
+    opts?: unknown;
+    className?: string;
+    onChange: (v: Value) => void;
+}) {
     const onChange = React.useCallback((e) => props.onChange(e.target.value), [props]);
     return (
-        <input defaultValue={props.value} type='text' onChange={onChange} onKeyDown={onKeyDown} />
+        <input className={props.className} value={props.value} type='text' onChange={onChange} />
     );
 }
 
-function DefaultEditEnum(props: {value: Value; opts: unknown; onChange; onUpdate}) {
-    const onKeyDown = React.useCallback(
-        (event) => {
-            if (event.keyCode == 13) {
-                props.onUpdate();
-            }
-        },
-        [props]
-    );
+function DefaultEditEnum(props: {
+    value: Value;
+    opts?: unknown;
+    className?: string;
+    onChange: (v: Value) => void;
+}) {
     const onChange = React.useCallback((e) => props.onChange(e.target.value), [props]);
     return (
-        <select defaultValue={props.value} onChange={onChange} onKeyDown={onKeyDown}>
+        <select className={props.className} value={props.value ?? ''} onChange={onChange}>
+            <option disabled value=''></option>
             {Object.keys(props.opts).map((k) => (
                 <option key={k} value={k}>
                     {props.opts[k]}
@@ -74,31 +66,85 @@ export default function Item(props: {
     edit?: Record<string, Editor>;
     idField?: string;
     item?: Row;
-    onChange: (field: string, value: Value) => void;
+    onChange: (modified: Row) => false | void;
     onDelete?: () => void;
     btnValidateClassName?: string;
     btnDeleteClassName?: string;
+    btnCancelClassName?: string;
+    inputClassName?: string;
     btnValidateElement?: JSX.Element;
     btnDeleteElement?: JSX.Element;
+    btnCancelElement?: JSX.Element;
     disableUpdate?: boolean;
     disableDelete?: boolean;
+    trClassName?: string;
+    tdClassName?: string | Record<string, string>;
 }): JSX.Element {
-    const [edit, setEdit] = React.useState<string | null>(null);
-    const [value, setValue] = React.useState<string | number | null>(null);
+    const [edit, setEdit] = React.useState<Row | null>(null);
 
-    const onChange = React.useCallback((v) => setValue(v), [setValue]);
     const onDelete = React.useCallback(() => props.onDelete(), [props]);
+    const deleteButton =
+        !props.disableDelete && props.onDelete !== undefined && edit === null ? (
+            props.btnDeleteElement ? (
+                <div onClick={onDelete} className={props.btnDeleteClassName}>
+                    {props.btnDeleteElement}
+                </div>
+            ) : (
+                <button className={props.btnDeleteClassName} onClick={onDelete}>
+                    x
+                </button>
+            )
+        ) : null;
 
-    const deleteButton = props.btnDeleteElement ? (
-        <div onClick={onDelete}>{props.btnDeleteElement}</div>
-    ) : (
-        <button className={props.btnDeleteClassName} onClick={onDelete}>
-            x
-        </button>
+    const onChange = React.useCallback(() => {
+        if (props.onChange(edit) !== false) setEdit(null);
+    }, [props, edit, setEdit]);
+    const validateButton =
+        edit !== null ? (
+            props.btnValidateElement ? (
+                <div onClick={onChange} className={props.btnValidateClassName}>
+                    {props.btnValidateElement}
+                </div>
+            ) : (
+                <button className={props.btnValidateClassName} onClick={onChange}>
+                    &#10003;
+                </button>
+            )
+        ) : null;
+
+    const onCancel = React.useCallback(() => setEdit(null), [setEdit]);
+    const cancelButton =
+        edit !== null ? (
+            props.btnCancelElement ? (
+                <div onClick={onCancel} className={props.btnCancelClassName}>
+                    {props.btnCancelElement}
+                </div>
+            ) : (
+                <button className={props.btnCancelClassName} onClick={onCancel}>
+                    x
+                </button>
+            )
+        ) : null;
+
+    const onKeyDown = React.useCallback(
+        (event) => {
+            if (event.keyCode == 13) {
+                onChange();
+            }
+            if (event.keyCode == 27) {
+                onCancel();
+            }
+        },
+        [onChange, onCancel]
     );
 
+    const filler =
+        props.item === undefined && edit === null ? (
+            <React.Fragment>&nbsp;</React.Fragment>
+        ) : undefined;
+
     return (
-        <tr>
+        <tr className={props.trClassName} onKeyDown={edit !== null ? onKeyDown : null}>
             {Object.keys(props.schema).map((k) => {
                 let f: Formatter, e: Editor;
                 if (props.schema[k] === 'string') {
@@ -113,46 +159,40 @@ export default function Item(props: {
                 } else {
                     return null;
                 }
-                if (edit == k) {
-                    const onUpdate = () => {
-                        props.onChange(k, value);
-                        setEdit(null);
+                if (edit !== null) {
+                    const onChange = (v: Value) => {
+                        edit[k] = v;
+                        setEdit({...edit});
                     };
                     const comp = React.createElement(e, {
-                        value: props?.item?.[k],
+                        value: edit?.[k] ?? '',
                         opts: props.schema[k],
-                        onChange,
-                        onUpdate
+                        className: props.inputClassName,
+                        onChange
                     });
-                    const validateButton = props.btnValidateElement ? (
-                        <div onClick={onUpdate}>{props.btnValidateElement}</div>
-                    ) : (
-                        <button className={props.btnValidateClassName} onClick={onUpdate}>
-                            &#10003;
-                        </button>
-                    );
 
                     return (
-                        <td key={k}>
+                        <td className={props.tdClassName?.[k] ?? props.tdClassName} key={k}>
                             {comp}
-                            {validateButton}
                         </td>
                     );
                 }
                 return (
                     <td
-                        onClick={() => {
-                            if (props.disableUpdate) return;
-                            setEdit(k);
-                            setValue(props?.item?.[k]);
-                        }}
+                        className={props.tdClassName?.[k] ?? props.tdClassName}
+                        onClick={props.disableUpdate ? undefined : () => setEdit({...props.item})}
                         key={k}
                     >
                         {f({value: props?.item?.[k], opts: props.schema[k]})}
                     </td>
                 );
             })}
-            <td>{props.disableDelete || props.onDelete === undefined ? null : deleteButton}</td>
+            <td className={props.tdClassName?.['buttons'] ?? props.tdClassName}>
+                {validateButton}
+                {cancelButton}
+                {deleteButton}
+                {filler}
+            </td>
         </tr>
     );
 }
