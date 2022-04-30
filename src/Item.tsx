@@ -24,7 +24,10 @@ function DefaultEditNumber(props: {
     className?: string;
     onChange: (v: Value) => void;
 }) {
-    const onChange = React.useCallback((e) => props.onChange(+e.target.value), [props]);
+    const onChange = React.useCallback(
+        (e) => props.onChange(e.target.value != '' ? +e.target.value : null),
+        [props]
+    );
     return (
         <input className={props.className} value={props.value} type='number' onChange={onChange} />
     );
@@ -36,7 +39,10 @@ function DefaultEditString(props: {
     className?: string;
     onChange: (v: Value) => void;
 }) {
-    const onChange = React.useCallback((e) => props.onChange(e.target.value), [props]);
+    const onChange = React.useCallback(
+        (e) => props.onChange(e.target.value != '' ? e.target.value : null),
+        [props]
+    );
     return (
         <input className={props.className} value={props.value} type='text' onChange={onChange} />
     );
