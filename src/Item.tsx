@@ -6,7 +6,7 @@ function DefaultFormatNumber(props: {value: Value}): JSX.Element {
     if (props.value !== null && props.value !== undefined)
         return <React.Fragment>{props.value.toString()}</React.Fragment>;
 
-    return null;
+    return <React.Fragment></React.Fragment>;
 }
 
 function DefaultFormatString(props: {value: Value}): JSX.Element {
@@ -90,7 +90,7 @@ export default function Item(props: {
 }): JSX.Element {
     const [edit, setEdit] = React.useState<Row | null>(null);
 
-    const onDelete = React.useCallback(() => props.onDelete(), [props]);
+    const onDelete = React.useCallback(() => props.onDelete && props.onDelete(), [props]);
     const deleteButton =
         !props.disableDelete && props.onDelete !== undefined && edit === null ? (
             props.btnDeleteElement ? (
@@ -105,9 +105,10 @@ export default function Item(props: {
         ) : null;
 
     const onChange = React.useCallback(() => {
-        props.onChange(edit).then((r) => {
-            if (r !== false) setEdit(null);
-        });
+        if (edit !== null)
+            props.onChange(edit).then((r) => {
+                if (r !== false) setEdit(null);
+            });
     }, [props, edit, setEdit]);
     const validateButton =
         edit !== null ? (
@@ -154,7 +155,7 @@ export default function Item(props: {
         ) : undefined;
 
     return (
-        <tr className={props.trClassName} onKeyDown={edit !== null ? onKeyDown : null}>
+        <tr className={props.trClassName} onKeyDown={edit !== null ? onKeyDown : undefined}>
             {props.schema.map((col, i) => {
                 let f: Formatter, e: Editor;
                 if (col.type === 'string') {

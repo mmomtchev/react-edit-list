@@ -1,7 +1,6 @@
-import React from 'react';
+export type Element = 'id' | 'string' | 'number' | {name: string; value: string | undefined}[];
 
-export type Element = 'id' | 'string' | 'number' | {name: string; value: string}[];
-
+export type Value = number | string | undefined;
 export type Schema = {name: string; type: Element}[];
 export type Formatter = (props: {value: Value; opts: unknown}) => JSX.Element;
 export type Editor = (props: {
@@ -10,7 +9,6 @@ export type Editor = (props: {
     className?: string;
     onChange: (value: Value) => void;
 }) => JSX.Element;
-export type Value = number | string | null | undefined;
 export type Row = Record<string, Value>;
 
 export interface Props {
@@ -22,7 +20,7 @@ export interface Props {
     /**
      * An asynchronous function that will be called to load the data
      */
-    getData: () => Promise<Row[]>;
+    onLoad: () => Promise<Row[]>;
 
     /**
      * Custom formatters

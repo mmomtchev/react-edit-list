@@ -30,7 +30,7 @@ export default function Simple() {
     return (
         <ReactEditList
             schema={schema}
-            getData={getData}
+            onLoad={getData}
             onUpdate={(item) => {
                 if (item.price > 2000) {
                     alert('Price is limited to 2000€');

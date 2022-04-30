@@ -9,31 +9,27 @@
             "dom",
             "dom.iterable"
         ],
-        "outDir": ".",
-        "declaration": true,
-        "declarationMap": true,
         "removeComments": true,
         "allowSyntheticDefaultImports": true,
         "jsx": "react",
         "allowJs": true,
         "baseUrl": "./",
+        "strict": true,
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "moduleResolution": "node",
         "downlevelIteration": true,
-        "skipLibCheck": true,
-        "strict": true,
         "paths": {
             "react-edit-list": [
-                "./src"
+                "../src"
             ]
         }
     },
     "include": [
-        "./src"
+        ".",
+        "../src"
     ],
-    "exclude": [],
-    "ts-node": {
-        "transpileOnly": true
-    }
+    "exclude": [
+        "*.js"
+    ]
 }

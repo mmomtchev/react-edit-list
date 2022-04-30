@@ -7,7 +7,7 @@ export default function ReactEditList(props: Props): JSX.Element {
     const [data, setData] = React.useState<Row[]>([]);
 
     React.useEffect(() => {
-        props.getData().then((data) => setData(data));
+        props.onLoad().then((data) => setData(data));
     }, [props]);
 
     return (
