@@ -44,7 +44,7 @@ export interface Props {
      *
      * Return `false` to deny the operation
      */
-    onChange?: (data: Row[]) => false | void;
+    onChange?: (data: Row[]) => false | void | Promise<false | void>;
 
     /**
      * Called after insertion of a new element
@@ -53,7 +53,7 @@ export interface Props {
      *
      * Return a new item to modify its contents
      */
-    onInsert?: (item: Row) => false | void | Row;
+    onInsert?: (item: Row) => false | void | Row | Promise<false | void | Row>;
 
     /**
      * Called after updating an existing element
@@ -62,14 +62,14 @@ export interface Props {
      *
      * Return a new item to modify its contents
      */
-    onUpdate?: (updated: Row, old: Row) => false | void | Row;
+    onUpdate?: (updated: Row, old: Row) => false | void | Row | Promise<false | void | Row>;
 
     /**
      * Called after deleting an element
      *
      * Return `false` to deny the operation
      */
-    onDelete?: (item: Row) => boolean | void;
+    onDelete?: (item: Row) => false | void | Promise<false | void>;
 
     /**
      * Optional default values for new elements

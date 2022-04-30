@@ -66,7 +66,7 @@ export default function Item(props: {
     edit?: Record<string, Editor>;
     idField?: string;
     item?: Row;
-    onChange: (modified: Row) => false | void;
+    onChange: (modified: Row) => Promise<false | void>;
     onDelete?: () => void;
     btnValidateClassName?: string;
     btnDeleteClassName?: string;
@@ -97,7 +97,9 @@ export default function Item(props: {
         ) : null;
 
     const onChange = React.useCallback(() => {
-        if (props.onChange(edit) !== false) setEdit(null);
+        props.onChange(edit).then((r) => {
+            if (r !== false) setEdit(null);
+        });
     }, [props, edit, setEdit]);
     const validateButton =
         edit !== null ? (

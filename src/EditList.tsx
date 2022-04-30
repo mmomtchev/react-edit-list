@@ -53,22 +53,22 @@ export default function ReactEditList(props: Props): JSX.Element {
                         inputClassName={props.inputClassName}
                         trClassName={props.trClassName}
                         tdClassName={props.tdClassName}
-                        onChange={(modified: Row) => {
+                        onChange={async (modified: Row) => {
                             if (props.onUpdate) {
-                                const update = props.onUpdate(modified, item);
+                                const update = await props.onUpdate(modified, item);
                                 if (update === false) return false;
                                 if (typeof update === 'object') modified = update;
                             }
                             const modifiedData = [...data];
                             modifiedData[modifiedData.findIndex((x) => x === item)] = modified;
                             if (props.onChange) {
-                                if (props.onChange(modifiedData) === false) return false;
+                                if ((await props.onChange(modifiedData)) === false) return false;
                             }
                             setData([...modifiedData]);
                         }}
-                        onDelete={() => {
+                        onDelete={async () => {
                             if (props.onDelete) {
-                                if (props.onDelete(item) === false) return;
+                                if ((await props.onDelete(item)) === false) return;
                             }
                             const idx = data.findIndex((x) => x === item);
                             data.splice(idx, 1);
@@ -90,16 +90,16 @@ export default function ReactEditList(props: Props): JSX.Element {
                     inputClassName={props.inputClassName}
                     trClassName={props.trClassName}
                     tdClassName={props.tdClassName}
-                    onChange={(modified: Row) => {
+                    onChange={async (modified: Row) => {
                         if (props.onInsert) {
-                            const update = props.onInsert(modified);
+                            const update = await props.onInsert(modified);
                             if (update === false) return false;
                             if (typeof update === 'object') modified = update;
                         }
                         if (props.onChange) {
                             const modifiedData = [...data];
                             modifiedData.push(modified);
-                            if (props.onChange(modifiedData) === false) return false;
+                            if ((await props.onChange(modifiedData)) === false) return false;
                         }
                         data.push(modified);
                         setData([...data]);
