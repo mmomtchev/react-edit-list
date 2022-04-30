@@ -45,13 +45,8 @@ export default function Simple() {
                 console.log('DELETE', item);
             }}
             onInsert={(item) => {
-                console.log(item);
-                if (
-                    item.product === undefined ||
-                    item.type === undefined ||
-                    item.price === undefined
-                ) {
-                    alert('All fields except stock are mandatory');
+                if (item.product === undefined || item.price === undefined) {
+                    alert('Product and price are mandatory');
                     return false;
                 }
                 // Call your API here

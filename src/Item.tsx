@@ -25,7 +25,7 @@ function DefaultEditNumber(props: {
     onChange: (v: Value) => void;
 }) {
     const onChange = React.useCallback(
-        (e) => props.onChange(e.target.value != '' ? +e.target.value : null),
+        (e) => props.onChange(e.target.value != '' ? +e.target.value : undefined),
         [props]
     );
     return (
@@ -40,7 +40,7 @@ function DefaultEditString(props: {
     onChange: (v: Value) => void;
 }) {
     const onChange = React.useCallback(
-        (e) => props.onChange(e.target.value != '' ? e.target.value : null),
+        (e) => props.onChange(e.target.value != '' ? e.target.value : undefined),
         [props]
     );
     return (
@@ -54,7 +54,10 @@ function DefaultEditEnum(props: {
     className?: string;
     onChange: (v: Value) => void;
 }) {
-    const onChange = React.useCallback((e) => props.onChange(e.target.value), [props]);
+    const onChange = React.useCallback(
+        (e) => props.onChange(e.target.value != '' ? e.target.value : undefined),
+        [props]
+    );
     return (
         <select className={props.className} value={props.value ?? ''} onChange={onChange}>
             {(props.opts as {name: string; value: string}[]).map((opt, i) => (
