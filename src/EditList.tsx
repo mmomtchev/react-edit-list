@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Schema, Props, Row, Value, getKey} from './base';
+import {Schema, Props, Row, Value} from './base';
 import Item from './Item';
 
 export default function ReactEditList(props: Props): JSX.Element {
@@ -10,25 +10,23 @@ export default function ReactEditList(props: Props): JSX.Element {
         props.getData().then((data) => setData(data));
     }, [props]);
 
-    const idField = Object.keys(props.schema).find((k) => props.schema[k] == 'id');
-
     return (
         <table className={props.className}>
             {props.headers !== null ? (
                 <thead className={props.headClassName}>
                     <tr className={props.trClassName}>
-                        {Object.keys(props.schema).map((k) => {
-                            if (props.schema[k] === 'id') return null;
-                            const className = props.thClassName?.[k] || props.thClassName;
-                            if (props.headers?.[k])
+                        {props.schema.map((col, i) => {
+                            if (col.type === 'id') return null;
+                            const className = props.thClassName?.[col.name] || props.thClassName;
+                            if (props.headers?.[col.name])
                                 return (
-                                    <th className={className} key={k}>
-                                        {props.headers[k]}
+                                    <th className={className} key={i}>
+                                        {props.headers[col.name]}
                                     </th>
                                 );
                             return (
-                                <th className={className} key={k}>
-                                    {k}
+                                <th className={className} key={i}>
+                                    {col.name}
                                 </th>
                             );
                         })}
@@ -37,12 +35,11 @@ export default function ReactEditList(props: Props): JSX.Element {
                 </thead>
             ) : null}
             <tbody className={props.bodyClassName}>
-                {data.map((item) => (
+                {data.map((item, i) => (
                     <Item
-                        key={getKey(idField, item)}
+                        key={i}
                         schema={props.schema}
                         format={props.format}
-                        idField={idField}
                         item={item}
                         btnValidateClassName={props.btnValidateClassName}
                         btnDeleteClassName={props.btnDeleteClassName}
@@ -79,7 +76,6 @@ export default function ReactEditList(props: Props): JSX.Element {
                 <Item
                     schema={props.schema}
                     format={props.format}
-                    idField={idField}
                     item={props.defaultValues}
                     btnValidateClassName={props.btnValidateClassName}
                     btnDeleteClassName={props.btnDeleteClassName}

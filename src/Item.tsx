@@ -14,7 +14,8 @@ function DefaultFormatString(props: {value: Value}): JSX.Element {
 }
 
 function DefaultFormatEnum(props: {value: Value; opts: unknown}): JSX.Element {
-    return <React.Fragment>{props.opts[props.value]}</React.Fragment>;
+    const opt = (props.opts as {name: string; value: string}[]).find((o) => o.value == props.value);
+    return <React.Fragment>{opt ? opt.name : ''}</React.Fragment>;
 }
 
 function DefaultEditNumber(props: {
@@ -50,10 +51,9 @@ function DefaultEditEnum(props: {
     const onChange = React.useCallback((e) => props.onChange(e.target.value), [props]);
     return (
         <select className={props.className} value={props.value ?? ''} onChange={onChange}>
-            <option disabled value=''></option>
-            {Object.keys(props.opts).map((k) => (
-                <option key={k} value={k}>
-                    {props.opts[k]}
+            {(props.opts as {name: string; value: string}[]).map((opt, i) => (
+                <option key={i} value={opt.value}>
+                    {opt.name}
                 </option>
             ))}
         </select>
@@ -64,7 +64,6 @@ export default function Item(props: {
     schema: Schema;
     format?: Record<string, Formatter>;
     edit?: Record<string, Editor>;
-    idField?: string;
     item?: Row;
     onChange: (modified: Row) => Promise<false | void>;
     onDelete?: () => void;
@@ -147,45 +146,45 @@ export default function Item(props: {
 
     return (
         <tr className={props.trClassName} onKeyDown={edit !== null ? onKeyDown : null}>
-            {Object.keys(props.schema).map((k) => {
+            {props.schema.map((col, i) => {
                 let f: Formatter, e: Editor;
-                if (props.schema[k] === 'string') {
-                    f = props.format?.[k] || DefaultFormatString;
-                    e = props.edit?.[k] || DefaultEditString;
-                } else if (props.schema[k] === 'number') {
-                    f = props.format?.[k] || DefaultFormatNumber;
-                    e = props.edit?.[k] || DefaultEditNumber;
-                } else if (typeof props.schema[k] === 'object') {
-                    f = props.format?.[k] || DefaultFormatEnum;
-                    e = props.edit?.[k] || DefaultEditEnum;
+                if (col.type === 'string') {
+                    f = props.format?.[col.name] || DefaultFormatString;
+                    e = props.edit?.[col.name] || DefaultEditString;
+                } else if (col.type === 'number') {
+                    f = props.format?.[col.name] || DefaultFormatNumber;
+                    e = props.edit?.[col.name] || DefaultEditNumber;
+                } else if (typeof col.type === 'object') {
+                    f = props.format?.[col.name] || DefaultFormatEnum;
+                    e = props.edit?.[col.name] || DefaultEditEnum;
                 } else {
                     return null;
                 }
                 if (edit !== null) {
                     const onChange = (v: Value) => {
-                        edit[k] = v;
+                        edit[col.name] = v;
                         setEdit({...edit});
                     };
                     const comp = React.createElement(e, {
-                        value: edit?.[k] ?? '',
-                        opts: props.schema[k],
+                        value: edit?.[col.name] ?? '',
+                        opts: col.type,
                         className: props.inputClassName,
                         onChange
                     });
 
                     return (
-                        <td className={props.tdClassName?.[k] ?? props.tdClassName} key={k}>
+                        <td className={props.tdClassName?.[col.name] ?? props.tdClassName} key={i}>
                             {comp}
                         </td>
                     );
                 }
                 return (
                     <td
-                        className={props.tdClassName?.[k] ?? props.tdClassName}
+                        className={props.tdClassName?.[col.name] ?? props.tdClassName}
                         onClick={props.disableUpdate ? undefined : () => setEdit({...props.item})}
-                        key={k}
+                        key={i}
                     >
-                        {f({value: props?.item?.[k], opts: props.schema[k]})}
+                        {f({value: props?.item?.[col.name], opts: col.type})}
                     </td>
                 );
             })}

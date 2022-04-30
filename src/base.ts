@@ -1,8 +1,8 @@
 import React from 'react';
 
-export type element = 'id' | 'string' | 'number' | Record<string, string>;
+export type Element = 'id' | 'string' | 'number' | {name: string; value: string}[];
 
-export type Schema = Record<string, element>;
+export type Schema = {name: string; type: Element}[];
 export type Formatter = (props: {value: Value; opts: unknown}) => JSX.Element;
 export type Editor = (props: {
     value: Value;
@@ -155,11 +155,4 @@ export interface Props {
      * Disable inserting
      */
     disableInsert?: boolean;
-}
-
-let uid = 0;
-export function getKey(idField: string, e: Record<string, unknown>): number | string {
-    if (idField !== undefined) return e[idField] as number | string;
-
-    return uid++;
 }
