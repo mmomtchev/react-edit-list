@@ -227,10 +227,12 @@ export default function Item(props: {
                 );
             })}
             <td className={tdClassName('buttons')}>
-                {validateButton}
-                {cancelButton}
-                {deleteButton}
-                {filler}
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    {validateButton}
+                    {cancelButton}
+                    {deleteButton}
+                    {filler}
+                </div>
             </td>
         </tr>
     );
