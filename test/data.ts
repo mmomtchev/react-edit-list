@@ -25,5 +25,5 @@ export const schema: REL.Schema = [
 ];
 
 export function onLoad() {
-    return Promise.resolve(data);
+    return Promise.resolve([...data]);
 }

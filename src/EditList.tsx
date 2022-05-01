@@ -68,8 +68,12 @@ export default function ReactEditList(props: Props): JSX.Element {
                                 if ((await props.onDelete(item)) === false) return;
                             }
                             const idx = data.findIndex((x) => x === item);
-                            data.splice(idx, 1);
-                            setData([...data]);
+                            const modifiedData = [...data];
+                            modifiedData.splice(idx, 1);
+                            if (props.onChange) {
+                                if ((await props.onChange(modifiedData)) === false) return false;
+                            }
+                            setData([...modifiedData]);
                         }}
                     />
                 ))}

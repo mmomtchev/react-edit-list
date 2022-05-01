@@ -2,15 +2,15 @@ module.exports = {
     testEnvironment: 'jsdom',
     roots: ['<rootDir>/test'],
     transform: {
-        '^.+\.(t|j)sx?$': 'ts-jest'
+        '^.+.(t|j)sx?$': 'ts-jest'
     },
     moduleNameMapper: {
         '^react-edit-list$': '<rootDir>/src'
     },
     globals: {
-        "ts-jest": {
+        'ts-jest': {
             tsconfig: {
-                outDir: "./.ts-jest"
+                outDir: './.ts-jest'
             }
         }
     },
@@ -22,5 +22,6 @@ module.exports = {
     testRegex: '/test/.*\\.test\\.tsx?$',
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     collectCoverage: true,
+    collectCoverageFrom: ['./src/**'],
     coverageReporters: ['json', 'lcov', 'text', 'clover']
 };
