@@ -99,8 +99,9 @@ export default function Advanced() {
             btnCancelElement={<button className='ms-2 btn btn-secondary'>NEVER</button>}
             btnDeleteElement={<button className='btn btn-danger'>REMOVE</button>}
             // Prevent buttons from wrapping around on two lines
+            // see example.css
             tdClassName={{
-                buttons: 'd-flex flex-row'
+                buttons: 'no-wrap'
             }}
         />
     );

@@ -5,3 +5,8 @@
 .left-menu {
     width: 10rem;
 }
+
+.no-wrap div {
+    display: flex;
+    flex-direction: row;
+}
