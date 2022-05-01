@@ -32,7 +32,9 @@
     "include": [
         "./src"
     ],
-    "exclude": [],
+    "exclude": [
+        "*.js"
+    ],
     "ts-node": {
         "transpileOnly": true
     }

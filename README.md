@@ -15,12 +15,18 @@ Still not published
 
 # Usage
 
+Refer to the [examples](https://mmomtchev.github.io/react-edit-list/)
+
 ![screenshot](https://raw.githubusercontent.com/mmomtchev/react-edit-list/main/screen-animation.gif)
 
 ```tsx
 import * as React from 'react';
 import ReactEditList, * as REL from 'react-edit-list';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../example.css';
+
+// This is the example data
 const data = [
     {id: 1, product: 'Desk', type: '1', price: 100, stock: 20},
     {id: 2, product: 'Printer', type: '1', price: 500, stock: 10},
@@ -29,6 +35,8 @@ const data = [
     {id: 5, product: 'Computer', type: '1', price: 1000, stock: 20},
     {id: 6, product: 'Rent', type: null, price: 2000, stock: undefined}
 ];
+
+// This is the schema
 const schema: REL.Schema = [
     {name: 'id', type: 'id'},
     {name: 'product', type: 'string'},
@@ -44,18 +52,12 @@ const schema: REL.Schema = [
     {name: 'stock', type: 'number'}
 ];
 
-const getData = () => Promise.resolve(data);
-
 export default function Simple() {
     return (
         <ReactEditList
             schema={schema}
-            getData={getData}
+            onLoad={() => data}
             onUpdate={(item) => {
-                if (item.price > 2000) {
-                    alert('Price is limited to 2000€');
-                    return false;
-                }
                 // Call your API here
                 console.log('UPDATE', item);
             }}
@@ -65,20 +67,8 @@ export default function Simple() {
                 console.log('DELETE', item);
             }}
             onInsert={(item) => {
-                if (item.product === undefined || item.price === undefined) {
-                    alert('Product and price are mandatory');
-                    return false;
-                }
                 // Call your API here
                 console.log('INSERT', item);
-                return {...item, id: Math.round(Math.random() * 1e6)};
-            }}
-            format={{
-                price: (props) => (
-                    <React.Fragment>
-                        {props.value !== undefined ? `${props.value} €` : undefined}
-                    </React.Fragment>
-                )
             }}
             onChange={(items) => {
                 // Process the whole list
@@ -88,6 +78,7 @@ export default function Simple() {
             headClassName='table-dark'
             inputClassName='w-100'
             thClassName={{
+                // These allow to fix the column widths
                 product: 'col-4',
                 type: 'col-3',
                 price: 'col-2',
