@@ -83,13 +83,13 @@ export default function Advanced() {
             editProps={{
                 price: {min: 0, max: 2000, step: 5}
             }}
-            className='table table-light table-fixed align-middle'
-            headClassName='table-dark'
+            className='table table-striped table-fixed align-middle'
+            headClassName='table-light'
             inputClassName='w-100'
             thClassName={{
                 product: 'col-3',
                 type: 'col-2',
-                price: 'col-1',
+                price: 'col-3',
                 stock: 'col-1',
                 // More place for the buttons
                 buttons: 'col-3'
