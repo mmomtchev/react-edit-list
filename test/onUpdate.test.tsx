@@ -98,19 +98,27 @@ describe('onUpdate()', () => {
         r.unmount();
     });
 
-    it('onUpdate() w/enum', async () => {
+    it('onUpdate() w/enum w/custom editor', async () => {
         let recvItem: REL.Row = {};
         let oldItem: REL.Row = {};
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => {
             recvItem = item;
             oldItem = old;
         });
-        const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
+        const r = render(
+            <ReactEditList
+                edit={{product: (props) => <div className='customEditor'>{props.value}</div>}}
+                editProps={{price: {max: 2000}}}
+                schema={schema}
+                onLoad={onLoad}
+                onUpdate={onUpdate}
+            />
+        );
         await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
-        await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
+        await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(2));
         expect(r.container.innerHTML).toMatchSnapshot();
 
         const selects = r.container.querySelectorAll('select');

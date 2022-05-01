@@ -7,8 +7,27 @@ export default function ReactEditList(props: Props): JSX.Element {
     const [data, setData] = React.useState<Row[]>([]);
 
     React.useEffect(() => {
-        props.onLoad().then((data) => setData(data));
-    }, [props]);
+        const dataq = props.onLoad();
+
+        if (dataq instanceof Promise) dataq.then((data) => setData(data));
+        else setData(dataq);
+    }, [props, setData]);
+
+    const sharedProps = {
+        schema: props.schema,
+        format: props.format,
+        btnValidateClassName: props.btnValidateClassName,
+        btnDeleteClassName: props.btnDeleteClassName,
+        btnValidateElement: props.btnValidateElement,
+        btnDeleteElement: props.btnDeleteElement,
+        btnCancelClassName: props.btnCancelClassName,
+        btnCancelElement: props.btnCancelElement,
+        inputClassName: props.inputClassName,
+        trClassName: props.trClassName,
+        tdClassName: props.tdClassName,
+        edit: props.edit,
+        editProps: props.editProps
+    };
 
     return (
         <table className={props.className}>
@@ -38,18 +57,8 @@ export default function ReactEditList(props: Props): JSX.Element {
                 {data.map((item, i) => (
                     <Item
                         key={i}
-                        schema={props.schema}
-                        format={props.format}
                         item={item}
-                        btnValidateClassName={props.btnValidateClassName}
-                        btnDeleteClassName={props.btnDeleteClassName}
-                        btnValidateElement={props.btnValidateElement}
-                        btnDeleteElement={props.btnDeleteElement}
-                        btnCancelClassName={props.btnCancelClassName}
-                        btnCancelElement={props.btnCancelElement}
-                        inputClassName={props.inputClassName}
-                        trClassName={props.trClassName}
-                        tdClassName={props.tdClassName}
+                        {...sharedProps}
                         onChange={async (modified: Row) => {
                             if (props.onUpdate) {
                                 const update = await props.onUpdate(modified, item);
@@ -78,18 +87,8 @@ export default function ReactEditList(props: Props): JSX.Element {
                     />
                 ))}
                 <Item
-                    schema={props.schema}
-                    format={props.format}
                     item={props.defaultValues}
-                    btnValidateClassName={props.btnValidateClassName}
-                    btnDeleteClassName={props.btnDeleteClassName}
-                    btnValidateElement={props.btnValidateElement}
-                    btnDeleteElement={props.btnDeleteElement}
-                    btnCancelClassName={props.btnCancelClassName}
-                    btnCancelElement={props.btnCancelElement}
-                    inputClassName={props.inputClassName}
-                    trClassName={props.trClassName}
-                    tdClassName={props.tdClassName}
+                    {...sharedProps}
                     onChange={async (modified: Row) => {
                         if (props.onInsert) {
                             const update = await props.onInsert(modified);

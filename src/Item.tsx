@@ -22,6 +22,7 @@ function DefaultEditNumber(props: {
     value: Value;
     opts?: unknown;
     className?: string;
+    editProps?: Record<string, unknown>;
     onChange: (v: Value) => void;
 }) {
     const onChange = React.useCallback(
@@ -29,7 +30,13 @@ function DefaultEditNumber(props: {
         [props]
     );
     return (
-        <input className={props.className} value={props.value} type='number' onChange={onChange} />
+        <input
+            className={props.className}
+            {...props.editProps}
+            value={props.value}
+            type='number'
+            onChange={onChange}
+        />
     );
 }
 
@@ -37,6 +44,7 @@ function DefaultEditString(props: {
     value: Value;
     opts?: unknown;
     className?: string;
+    editProps?: Record<string, unknown>;
     onChange: (v: Value) => void;
 }) {
     const onChange = React.useCallback(
@@ -44,7 +52,13 @@ function DefaultEditString(props: {
         [props]
     );
     return (
-        <input className={props.className} value={props.value} type='text' onChange={onChange} />
+        <input
+            className={props.className}
+            {...props.editProps}
+            value={props.value}
+            type='text'
+            onChange={onChange}
+        />
     );
 }
 
@@ -52,6 +66,7 @@ function DefaultEditEnum(props: {
     value: Value;
     opts?: unknown;
     className?: string;
+    editProps?: Record<string, unknown>;
     onChange: (v: Value) => void;
 }) {
     const onChange = React.useCallback(
@@ -59,7 +74,12 @@ function DefaultEditEnum(props: {
         [props]
     );
     return (
-        <select className={props.className} value={props.value ?? ''} onChange={onChange}>
+        <select
+            {...props.editProps}
+            className={props.className}
+            value={props.value ?? ''}
+            onChange={onChange}
+        >
             {(props.opts as {name: string; value: string}[]).map((opt, i) => (
                 <option key={i} value={opt.value}>
                     {opt.name}
@@ -87,6 +107,7 @@ export default function Item(props: {
     disableDelete?: boolean;
     trClassName?: string;
     tdClassName?: string | Record<string, string>;
+    editProps?: Record<string, Record<string, unknown>>;
 }): JSX.Element {
     const [edit, setEdit] = React.useState<Row | null>(null);
 
@@ -154,6 +175,10 @@ export default function Item(props: {
             <React.Fragment>&nbsp;</React.Fragment>
         ) : undefined;
 
+    const tdClassName = (field) =>
+        props.tdClassName?.[field] ??
+        (typeof props.tdClassName === 'string' ? props.tdClassName : undefined);
+
     return (
         <tr className={props.trClassName} onKeyDown={edit !== null ? onKeyDown : undefined}>
             {props.schema.map((col, i) => {
@@ -170,7 +195,9 @@ export default function Item(props: {
                 } else {
                     return null;
                 }
+
                 if (edit !== null) {
+                    const editProps = props.editProps?.[col.name];
                     const onChange = (v: Value) => {
                         edit[col.name] = v;
                         setEdit({...edit});
@@ -179,18 +206,19 @@ export default function Item(props: {
                         value: edit?.[col.name] ?? '',
                         opts: col.type,
                         className: props.inputClassName,
+                        editProps: editProps,
                         onChange
                     });
 
                     return (
-                        <td className={props.tdClassName?.[col.name] ?? props.tdClassName} key={i}>
+                        <td className={tdClassName(col.name)} key={i}>
                             {comp}
                         </td>
                     );
                 }
                 return (
                     <td
-                        className={props.tdClassName?.[col.name] ?? props.tdClassName}
+                        className={tdClassName(col.name)}
                         onClick={props.disableUpdate ? undefined : () => setEdit({...props.item})}
                         key={i}
                     >
@@ -198,7 +226,7 @@ export default function Item(props: {
                     </td>
                 );
             })}
-            <td className={props.tdClassName?.['buttons'] ?? props.tdClassName}>
+            <td className={tdClassName('buttons')}>
                 {validateButton}
                 {cancelButton}
                 {deleteButton}

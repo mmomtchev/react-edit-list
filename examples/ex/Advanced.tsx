@@ -1,6 +1,9 @@
 import * as React from 'react';
 import ReactEditList, * as REL from 'react-edit-list';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../example.css';
+
 const data = [
     {id: 1, product: 'Desk', type: '1', price: 100, stock: 20},
     {id: 2, product: 'Printer', type: '1', price: 500, stock: 10},
@@ -24,14 +27,16 @@ const schema: REL.Schema = [
     {name: 'stock', type: 'number'}
 ];
 
+// Loading can be asynchronous
 const getData = () => Promise.resolve(data);
 
-export default function Simple() {
+export default function Advanced() {
     return (
         <ReactEditList
             schema={schema}
             onLoad={getData}
             onUpdate={(item) => {
+                // The operation can be denied
                 if (item.price > 2000) {
                     alert('Price is limited to 2000€');
                     return false;
@@ -40,20 +45,26 @@ export default function Simple() {
                 console.log('UPDATE', item);
             }}
             onDelete={(item) => {
+                // The operation can be denied
                 if (!confirm('Are you sure you want to delete it?')) return false;
                 // Call your API here
                 console.log('DELETE', item);
             }}
             onInsert={(item) => {
+                // The operation can be denied
                 if (item.product === undefined || item.price === undefined) {
                     alert('Product and price are mandatory');
                     return false;
                 }
                 // Call your API here
                 console.log('INSERT', item);
-                return {...item, id: Math.round(Math.random() * 1e6)};
+
+                // The object can be modified before insertion
+                // This is the ideal place to assign unique ids
+                return Promise.resolve({...item, id: Math.round(Math.random() * 1e6)});
             }}
             format={{
+                // Some fields can have a custom display element
                 price: (props) => (
                     <React.Fragment>
                         {props.value !== undefined ? `${props.value} €` : undefined}
@@ -64,19 +75,33 @@ export default function Simple() {
                 // Process the whole list
                 console.log('DATA', items);
             }}
+            // Headers are customizable
+            headers={{
+                price: <span>price (€)</span>
+            }}
+            // You can provide arbitrary props to be passed to the `input` element
+            editProps={{
+                price: {min: 0, max: 2000, step: 5}
+            }}
             className='table table-light table-fixed align-middle'
             headClassName='table-dark'
             inputClassName='w-100'
             thClassName={{
-                product: 'col-4',
-                type: 'col-3',
-                price: 'col-2',
-                stock: 'col-2',
-                buttons: 'col-1'
+                product: 'col-3',
+                type: 'col-2',
+                price: 'col-1',
+                stock: 'col-1',
+                // More place for the buttons
+                buttons: 'col-3'
             }}
-            btnValidateClassName='btn btn-success p-0 m-0'
-            btnDeleteClassName='btn btn-danger py-0 px-1 m-0 mx-1'
-            btnCancelClassName='btn btn-secondary py-0 px-1 m-0 mx-1'
+            // You can provide arbitrary elements for buttons
+            btnValidateElement={<button className='btn btn-primary'>YES!</button>}
+            btnCancelElement={<button className='ms-2 btn btn-secondary'>NEVER</button>}
+            btnDeleteElement={<button className='btn btn-danger'>REMOVE</button>}
+            // Prevent buttons from wrapping around on two lines
+            tdClassName={{
+                buttons: 'd-flex flex-row'
+            }}
         />
     );
 }

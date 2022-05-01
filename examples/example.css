@@ -1,3 +1,7 @@
 .table-fixed {
     table-layout: fixed;
 }
+
+.left-menu {
+    width: 10rem;
+}

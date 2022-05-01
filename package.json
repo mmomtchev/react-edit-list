@@ -43,9 +43,9 @@
   "bugs": {
     "url": "https://github.com/mmomtchev/react-edit-list/issues"
   },
-  "dependencies": {
-  },
   "peerDependencies": {
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
@@ -90,6 +90,7 @@
     "raw-loader": "^4.0.2",
     "react": "^18.0.0",
     "react-bootstrap": "^2.0.0",
+    "react-day-picker": "^8.0.4",
     "react-docgen-typescript": "^2.1.0",
     "react-dom": "^18.0.0",
     "react-router": "^6.3.0",

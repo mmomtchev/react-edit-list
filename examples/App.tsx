@@ -4,10 +4,10 @@ import React from 'react';
 import {HashRouter as Router, Route, Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
 
-import './example.css';
-
 const examples = {
-    simple: {title: 'Simple', file: 'Simple'}
+    simple: {title: 'Simple', file: 'Simple'},
+    advanced: {title: 'Advanced', file: 'Advanced'},
+    custom: {title: 'Custom Field', file: 'CustomField'}
 };
 
 // The examples use a code-loading technique that I have described in
@@ -18,10 +18,10 @@ const CodeBlock = React.lazy(() => import(/* webpackPrefetch: true */ './CodeBlo
 
 for (const ex of Object.keys(examples)) {
     examples[ex].comp = React.lazy(
-        () => import(/* webpackPrefetch: true */ `./${examples[ex].file}.tsx`)
+        () => import(/* webpackPrefetch: true */ `./ex/${examples[ex].file}.tsx`)
     );
     examples[ex].code = import(
-        /* webpackPrefetch: true */ `!!html-loader?{"minimize":false}!./jsx-loader.ts!./${examples[ex].file}.tsx`
+        /* webpackPrefetch: true */ `!!html-loader?{"minimize":false}!./jsx-loader.ts!./ex/${examples[ex].file}.tsx`
     ).then((code) => code.default);
 }
 

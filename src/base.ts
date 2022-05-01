@@ -7,6 +7,7 @@ export type Editor = (props: {
     value: Value;
     opts?: unknown;
     className?: string;
+    editProps?: Record<string, unknown>;
     onChange: (value: Value) => void;
 }) => JSX.Element;
 export type Row = Record<string, Value>;
@@ -18,19 +19,24 @@ export interface Props {
     schema: Schema;
 
     /**
-     * An asynchronous function that will be called to load the data
+     * Will be called to load the data, can be asynchronous
      */
-    onLoad: () => Promise<Row[]>;
+    onLoad: () => Row[] | Promise<Row[]>;
 
     /**
-     * Custom formatters
+     * Custom field formatters
      */
     format?: Record<string, Formatter>;
 
     /**
-     * Custom editors
+     * Custom field editors
      */
     edit?: Record<string, Editor>;
+
+    /**
+     * Custom props to be passed to the field editors
+     */
+    editProps?: Record<string, Record<string, unknown>>;
 
     /**
      * Custom headers, set to `null` to completely disable headers
@@ -40,34 +46,34 @@ export interface Props {
     /**
      * Called on every change with all the elements
      *
-     * Return `false` to deny the operation
+     * Return `boolean` to deny the operation
      */
-    onChange?: (data: Row[]) => false | void | Promise<false | void>;
+    onChange?: (data: Row[]) => boolean | void | Promise<boolean | void>;
 
     /**
      * Called after insertion of a new element
      *
-     * Return `false` to deny the operation
+     * Return `boolean` to deny the operation
      *
      * Return a new item to modify its contents
      */
-    onInsert?: (item: Row) => false | void | Row | Promise<false | void | Row>;
+    onInsert?: (item: Row) => boolean | void | Row | Promise<boolean | void | Row>;
 
     /**
      * Called after updating an existing element
      *
-     * Return `false` to deny the operation
+     * Return `boolean` to deny the operation
      *
      * Return a new item to modify its contents
      */
-    onUpdate?: (updated: Row, old: Row) => false | void | Row | Promise<false | void | Row>;
+    onUpdate?: (updated: Row, old: Row) => boolean | void | Row | Promise<boolean | void | Row>;
 
     /**
      * Called after deleting an element
      *
-     * Return `false` to deny the operation
+     * Return `boolean` to deny the operation
      */
-    onDelete?: (item: Row) => false | void | Promise<false | void>;
+    onDelete?: (item: Row) => boolean | void | Promise<boolean | void>;
 
     /**
      * Optional default values for new elements
