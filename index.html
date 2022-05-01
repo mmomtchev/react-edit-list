@@ -1,6 +1,10 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="keywords" content="react, list, listview, typescript, javascript"><title>react-edit-list - Universal Editable List React Component</title><script defer="defer" src="bundle.js"></script></head><body><div id="fullscreen" class="fullscreen"><div id="root"><h1 id="react-edit-list">react-edit-list</h1><p><a href="https://github.com/mmomtchev/react-edit-list/blob/main/LICENSE"><img src="https://img.shields.io/github/license/mmomtchev/react-edit-list" alt="License: ISC"></a><a href="https://www.npmjs.com/package/react-edit-list"><img src="https://img.shields.io/npm/v/react-edit-list" alt="npm version"></a><a href="https://github.com/mmomtchev/react-edit-list/actions?query=workflow%3A%22Node.js+CI%22"><img src="https://github.com/mmomtchev/react-edit-list/workflows/Node.js%20CI/badge.svg" alt="Node.js CI"></a><a href="https://codecov.io/gh/mmomtchev/react-edit-list"><img src="https://codecov.io/gh/mmomtchev/react-edit-list/branch/main/graph/badge.svg?token=ZHVvNADJrZ" alt="codecov"></a></p><p>Universal Editable List React Component</p><p><code>react-edit-list</code> allows for easy creation of editable lists in React that can be interfaced with a database</p><h1 id="installation">Installation</h1><p>Still not published</p><h1 id="usage">Usage</h1><p><img src="https://raw.githubusercontent.com/mmomtchev/react-edit-list/main/screen-animation.gif" alt="screenshot"></p><pre><code class="language-tsx">import * as React from &#39;react&#39;;
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="keywords" content="react, list, listview, typescript, javascript"><title>react-edit-list - Universal Editable List React Component</title><script defer="defer" src="bundle.js"></script></head><body><div id="fullscreen" class="fullscreen"><div id="root"><h1 id="react-edit-list">react-edit-list</h1><p><a href="https://github.com/mmomtchev/react-edit-list/blob/main/LICENSE"><img src="https://img.shields.io/github/license/mmomtchev/react-edit-list" alt="License: ISC"></a><a href="https://www.npmjs.com/package/react-edit-list"><img src="https://img.shields.io/npm/v/react-edit-list" alt="npm version"></a><a href="https://github.com/mmomtchev/react-edit-list/actions?query=workflow%3A%22Node.js+CI%22"><img src="https://github.com/mmomtchev/react-edit-list/workflows/Node.js%20CI/badge.svg" alt="Node.js CI"></a><a href="https://codecov.io/gh/mmomtchev/react-edit-list"><img src="https://codecov.io/gh/mmomtchev/react-edit-list/branch/main/graph/badge.svg?token=ZHVvNADJrZ" alt="codecov"></a></p><p>Universal Editable List React Component</p><p><code>react-edit-list</code> allows for easy creation of editable lists in React that can be interfaced with a database</p><ul><li>Fully customizable</li><li>Zero-dependency</li><li>Supports async callbacks for calling externals APIs</li><li>Supports input validation</li><li>Supports optional <code>null</code> fields</li></ul><h1 id="installation">Installation</h1><p>Still not published</p><h1 id="usage">Usage</h1><p>Refer to the <a href="https://mmomtchev.github.io/react-edit-list/">examples</a></p><p><img src="https://raw.githubusercontent.com/mmomtchev/react-edit-list/main/screen-animation.gif" alt="screenshot"></p><pre><code class="language-tsx">import * as React from &#39;react&#39;;
 import ReactEditList, * as REL from &#39;react-edit-list&#39;;
 
+import &#39;bootstrap/dist/css/bootstrap.min.css&#39;;
+import &#39;../example.css&#39;;
+
+// This is the example data
 const data = [
     {id: 1, product: &#39;Desk&#39;, type: &#39;1&#39;, price: 100, stock: 20},
     {id: 2, product: &#39;Printer&#39;, type: &#39;1&#39;, price: 500, stock: 10},
@@ -9,6 +13,8 @@ const data = [
     {id: 5, product: &#39;Computer&#39;, type: &#39;1&#39;, price: 1000, stock: 20},
     {id: 6, product: &#39;Rent&#39;, type: null, price: 2000, stock: undefined}
 ];
+
+// This is the schema
 const schema: REL.Schema = [
     {name: &#39;id&#39;, type: &#39;id&#39;},
     {name: &#39;product&#39;, type: &#39;string&#39;},
@@ -24,18 +30,12 @@ const schema: REL.Schema = [
     {name: &#39;stock&#39;, type: &#39;number&#39;}
 ];
 
-const getData = () =&gt; Promise.resolve(data);
-
 export default function Simple() {
     return (
         &lt;ReactEditList
             schema={schema}
-            getData={getData}
+            onLoad={() =&gt; data}
             onUpdate={(item) =&gt; {
-                if (item.price &gt; 2000) {
-                    alert(&#39;Price is limited to 2000€&#39;);
-                    return false;
-                }
                 // Call your API here
                 console.log(&#39;UPDATE&#39;, item);
             }}
@@ -45,20 +45,8 @@ export default function Simple() {
                 console.log(&#39;DELETE&#39;, item);
             }}
             onInsert={(item) =&gt; {
-                if (item.product === undefined || item.price === undefined) {
-                    alert(&#39;Product and price are mandatory&#39;);
-                    return false;
-                }
                 // Call your API here
                 console.log(&#39;INSERT&#39;, item);
-                return {...item, id: Math.round(Math.random() * 1e6)};
-            }}
-            format={{
-                price: (props) =&gt; (
-                    &lt;React.Fragment&gt;
-                        {props.value !== undefined ? `${props.value} €` : undefined}
-                    &lt;/React.Fragment&gt;
-                )
             }}
             onChange={(items) =&gt; {
                 // Process the whole list
@@ -68,6 +56,7 @@ export default function Simple() {
             headClassName=&#39;table-dark&#39;
             inputClassName=&#39;w-100&#39;
             thClassName={{
+                // These allow to fix the column widths
                 product: &#39;col-4&#39;,
                 type: &#39;col-3&#39;,
                 price: &#39;col-2&#39;,
