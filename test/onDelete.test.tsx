@@ -55,4 +55,12 @@ describe('onDelete()', () => {
         expect(recvItem.stock).toBe(20);
         r.unmount();
     });
+
+    it('disableDelete', async () => {
+        const r = render(<ReactEditList schema={schema} onLoad={onLoad} disableDelete={true} />);
+        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        expect(r.container.innerHTML).toMatchSnapshot();
+        expect(r.queryAllByText(/^x$/)).toHaveLength(0);
+        r.unmount();
+    });
 });

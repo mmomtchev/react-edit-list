@@ -26,7 +26,9 @@ export default function ReactEditList(props: Props): JSX.Element {
         trClassName: props.trClassName,
         tdClassName: props.tdClassName,
         edit: props.edit,
-        editProps: props.editProps
+        editProps: props.editProps,
+        disableDelete: props.disableDelete,
+        disableUpdate: props.disableUpdate
     };
 
     return (
@@ -86,24 +88,26 @@ export default function ReactEditList(props: Props): JSX.Element {
                         }}
                     />
                 ))}
-                <Item
-                    item={props.defaultValues}
-                    {...sharedProps}
-                    onChange={async (modified: Row) => {
-                        if (props.onInsert) {
-                            const update = await props.onInsert(modified);
-                            if (update === false) return false;
-                            if (typeof update === 'object') modified = update;
-                        }
-                        if (props.onChange) {
-                            const modifiedData = [...data];
-                            modifiedData.push(modified);
-                            if ((await props.onChange(modifiedData)) === false) return false;
-                        }
-                        data.push(modified);
-                        setData([...data]);
-                    }}
-                />
+                {props.disableInsert ? null : (
+                    <Item
+                        item={props.defaultValues}
+                        {...sharedProps}
+                        onChange={async (modified: Row) => {
+                            if (props.onInsert) {
+                                const update = await props.onInsert(modified);
+                                if (update === false) return false;
+                                if (typeof update === 'object') modified = update;
+                            }
+                            if (props.onChange) {
+                                const modifiedData = [...data];
+                                modifiedData.push(modified);
+                                if ((await props.onChange(modifiedData)) === false) return false;
+                            }
+                            data.push(modified);
+                            setData([...data]);
+                        }}
+                    />
+                )}
             </tbody>
         </table>
     );

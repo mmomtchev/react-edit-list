@@ -52,6 +52,7 @@ export default function Simple() {
                 // Process the whole list
                 console.log('DATA', items);
             }}
+            disableUpdate={true}
             className='table table-light table-fixed align-middle'
             headClassName='table-dark'
             inputClassName='w-100'

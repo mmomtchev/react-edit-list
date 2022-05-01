@@ -92,4 +92,17 @@ describe('onInsert()', () => {
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
+
+    it('disableInsert', async () => {
+        const onLoadFn = jest.fn(onLoad);
+        const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} disableInsert={true} />);
+        await waitFor(() => expect(r.getByText(/Desk/)));
+        expect(onLoadFn).toBeCalledTimes(1);
+        expect(r.container.innerHTML).toMatchSnapshot();
+        const cells = r.container.querySelectorAll('td');
+        fireEvent(cells[cells.length - 5], new MouseEvent('click', {bubbles: true}));
+        await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
+        expect(cells[cells.length - 5].children[0]).toHaveAttribute('value', 'Rent');
+        r.unmount();
+    });
 });

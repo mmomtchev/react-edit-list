@@ -205,4 +205,15 @@ describe('onUpdate()', () => {
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
+
+    it('disableUpdate', async () => {
+        const r = render(<ReactEditList schema={schema} onLoad={onLoad} disableUpdate={true} />);
+        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        expect(r.container.innerHTML).toMatchSnapshot();
+
+        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(0));
+        expect(r.container.innerHTML).toMatchSnapshot();
+        r.unmount();
+    });
 });
