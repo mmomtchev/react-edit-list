@@ -9,6 +9,12 @@ Universal Editable List React Component
 
 `react-edit-list` allows for easy creation of editable lists in React that can be interfaced with a database
 
+-   Fully customizable
+-   Zero-dependency
+-   Supports async callbacks for calling externals APIs
+-   Supports input validation
+-   Supports optional `null` fields
+
 # Installation
 
 Still not published
