@@ -32,30 +32,51 @@ export default function Dates() {
             onInsert={validate}
             onUpdate={validate}
             format={{
-                // You have to provide a custom renderer for the field
+                // You have to provide a custom React component for rendering the field
                 birthdate: (props) => <React.Fragment>{display(props.value)}</React.Fragment>
             }}
             edit={{
-                // You have to provide a custom editor
+                // You have to provide a custom editor that is a React component
                 // react-edit-list will pass you the current value in `props.value`
                 // In order to modify it, you will have to call `props.onChange()`
-                birthdate: (props) => (
-                    // This is a simple Bootstrap 5 dropdown
-                    <div className='w-100 dropdown'>
-                        <input
-                            value={display(props.value)}
-                            className='user-select-none w-100'
-                            data-bs-toggle='dropdown'
-                        />
-                        <div className='dropdown-menu'>
-                            <ReactDayPicker
-                                mode='single'
-                                selected={new Date(props.value)}
-                                onSelect={(value) => props.onChange(new Date(value).getTime())}
+                birthdate: function BirthDateEditor(props) {
+                    const date = React.useMemo<Date>(() => new Date(props.value), [props]);
+                    const render = React.useMemo<string>(() => display(props.value), [props]);
+                    const dropdown = React.useRef<HTMLDivElement>();
+                    return (
+                        // This is a simple Bootstrap 5 dropdown with manual control
+                        <div className='w-100'>
+                            {/* This is the always visible part */}
+                            <input
+                                value={render}
+                                readOnly
+                                onFocus={React.useCallback(
+                                    // On focus, show the dropdown
+                                    () => dropdown.current.classList.add('show'),
+                                    [dropdown]
+                                )}
+                                className='user-select-none w-100'
                             />
+                            {/* This is the dropdown part */}
+                            <div className='dropdown-menu' ref={dropdown}>
+                                <ReactDayPicker
+                                    mode='single'
+                                    selected={date}
+                                    defaultMonth={date}
+                                    onSelect={React.useCallback(
+                                        (value) => {
+                                            // Here we send the new date to react-edit-list
+                                            props.onChange(new Date(value).getTime());
+                                            // And then we close the dropdown
+                                            dropdown.current.classList.remove('show');
+                                        },
+                                        [props]
+                                    )}
+                                />
+                            </div>
                         </div>
-                    </div>
-                )
+                    );
+                }
             }}
             className='table table-light table-fixed align-middle'
             headClassName='table-dark'
