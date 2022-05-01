@@ -67,6 +67,10 @@ export default function Dates() {
                 stock: 'col-2',
                 buttons: 'col-1'
             }}
+            // Prevent buttons from wrapping around on two lines
+            tdClassName={{
+                buttons: 'd-flex flex-row'
+            }}
             btnValidateClassName='btn btn-success p-0 m-0'
             btnDeleteClassName='btn btn-danger py-0 px-1 m-0 mx-1'
             btnCancelClassName='btn btn-secondary py-0 px-1 m-0 mx-1'
