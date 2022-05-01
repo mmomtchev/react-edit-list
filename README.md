@@ -1,9 +1,9 @@
 # react-edit-list
 
-[![License: ISC](https://img.shields.io/github/license/mmomtchev/react-edit-list)](https://github.com/mmomtchev/react-edit-list/blob/master/LICENSE)
+[![License: ISC](https://img.shields.io/github/license/mmomtchev/react-edit-list)](https://github.com/mmomtchev/react-edit-list/blob/main/LICENSE)
 [![npm version](https://img.shields.io/npm/v/react-edit-list)](https://www.npmjs.com/package/react-edit-list)
 [![Node.js CI](https://github.com/mmomtchev/react-edit-list/workflows/Node.js%20CI/badge.svg)](https://github.com/mmomtchev/react-edit-list/actions?query=workflow%3A%22Node.js+CI%22)
-[![codecov](https://codecov.io/gh/mmomtchev/react-edit-list/branch/master/graph/badge.svg)](https://codecov.io/gh/mmomtchev/react-edit-list)
+[![codecov](https://codecov.io/gh/mmomtchev/react-edit-list/branch/main/graph/badge.svg?token=ZHVvNADJrZ)](https://codecov.io/gh/mmomtchev/react-edit-list)
 
 Universal Editable List React Component
 
