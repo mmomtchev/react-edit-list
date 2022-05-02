@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Field type
  *
- * `id` means a hidden element that will be carried on by react-edit-list without any processing
+ * `id` means a hidden field that will be carried on by react-edit-list without any processing
  *
  * `string` and `number` have default rendering and input components
  *

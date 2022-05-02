@@ -65,8 +65,9 @@ export default function CustomGridElements() {
                 // It is a responsive design that will automatically switch to two
                 // lines per row when you reduce the width of your screen below 992px
                 //
-                headClassName='container-fluid bg-dark text-light'
-                bodyClassName='container-fluid bg-light'
+                className='container-fluid gx-0'
+                headClassName='bg-dark text-light'
+                bodyClassName='bg-light'
                 inputClassName='w-100'
                 thClassName={{
                     product: 'col-lg-4 col-8 p-1',
@@ -82,7 +83,7 @@ export default function CustomGridElements() {
                     stock: 'col-lg-2 col-5 p-1',
                     buttons: 'col-lg-1 col-2 p-1'
                 }}
-                trClassName='row'
+                trClassName='gx-0 row border'
                 tableElement='div'
                 tbodyElement='div'
                 theadElement='div'
