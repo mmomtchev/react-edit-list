@@ -107,7 +107,9 @@ describe('onUpdate()', () => {
         });
         const r = render(
             <ReactEditList
-                edit={{product: (props) => <div className='customEditor'>{props.value}</div>}}
+                edit={{
+                    product: (props) => <div className='customEditor'>{props.value as string}</div>
+                }}
                 editProps={{price: {max: 2000}}}
                 schema={schema}
                 onLoad={onLoad}
