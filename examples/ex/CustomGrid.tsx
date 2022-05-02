@@ -34,7 +34,7 @@ export default function CustomGridElements() {
     return (
         <div>
             <p>
-                This grid uses custom elements. It replaces the table elements with divs place on
+                This grid uses custom elements. It replaces the table elements with divs placed on
                 Bootstrap&apos;s grid. It is a <strong>responsive</strong> design that will
                 automatically switch to two lines per row when you reduce the width of your screen
                 below 992px.
@@ -60,7 +60,7 @@ export default function CustomGridElements() {
                     console.log('DATA', items);
                 }}
                 // This grid uses custom elements
-                // It replaces the <table> elements with divs place on Bootstrap's grid
+                // It replaces the <table> elements with divs placed on Bootstrap's grid
                 //
                 // It is a responsive design that will automatically switch to two
                 // lines per row when you reduce the width of your screen below 992px
