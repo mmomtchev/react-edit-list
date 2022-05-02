@@ -71,9 +71,8 @@ const webpackConfig = (env): Configuration => ({
         })
     ],
     devServer: {
-        host: '0.0.0.0',
         port: 8030,
-        allowedHosts: ['auto']
+        allowedHosts: ['all']
     }
 });
 
