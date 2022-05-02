@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "clean": "tsc --build --clean && rimraf docs control style layer interaction",
+    "clean": "tsc --build --clean && rimraf docs",
     "build": "npm run clean && npm run build:lib && npm run build:examples && npm run build:doc",
     "build:lib": "tsc",
     "build:examples": "webpack --mode=production --env production",
