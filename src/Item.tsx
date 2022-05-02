@@ -4,13 +4,13 @@ import {Schema, Row, Value, Formatter, Editor} from './base';
 
 function DefaultFormatNumber(props: {value: Value}): JSX.Element {
     if (props.value !== null && props.value !== undefined)
-        return <React.Fragment>{props.value.toString()}</React.Fragment>;
+        return <React.Fragment>{(props.value as number).toString()}</React.Fragment>;
 
     return <React.Fragment></React.Fragment>;
 }
 
 function DefaultFormatString(props: {value: Value}): JSX.Element {
-    return <React.Fragment>{props.value}</React.Fragment>;
+    return <React.Fragment>{props.value as string}</React.Fragment>;
 }
 
 function DefaultFormatEnum(props: {value: Value; opts: unknown}): JSX.Element {
@@ -33,7 +33,7 @@ function DefaultEditNumber(props: {
         <input
             className={props.className}
             {...props.editProps}
-            value={props.value}
+            value={props.value as number}
             type='number'
             onChange={onChange}
         />
@@ -55,7 +55,7 @@ function DefaultEditString(props: {
         <input
             className={props.className}
             {...props.editProps}
-            value={props.value}
+            value={props.value as string}
             type='text'
             onChange={onChange}
         />
@@ -77,7 +77,7 @@ function DefaultEditEnum(props: {
         <select
             {...props.editProps}
             className={props.className}
-            value={props.value ?? ''}
+            value={(props.value ?? '') as string}
             onChange={onChange}
         >
             {(props.opts as {name: string; value: string}[]).map((opt, i) => (
@@ -183,7 +183,10 @@ export default function Item(props: {
         <tr className={props.trClassName} onKeyDown={edit !== null ? onKeyDown : undefined}>
             {props.schema.map((col, i) => {
                 let f: Formatter, e: Editor;
-                if (col.type === 'string') {
+                if (col.type === 'custom') {
+                    f = props.format?.[col.name]!;
+                    e = props.edit?.[col.name]!;
+                } else if (col.type === 'string') {
                     f = props.format?.[col.name] || DefaultFormatString;
                     e = props.edit?.[col.name] || DefaultEditString;
                 } else if (col.type === 'number') {

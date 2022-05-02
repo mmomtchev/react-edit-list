@@ -1,6 +1,11 @@
-export type Element = 'id' | 'string' | 'number' | {name: string; value: string | undefined}[];
+export type Element =
+    | 'id'
+    | 'string'
+    | 'number'
+    | {name: string; value: string | undefined}[]
+    | 'custom';
 
-export type Value = number | string | undefined;
+export type Value = unknown;
 export type Schema = {name: string; type: Element}[];
 export type Formatter = (props: {value: Value; opts: unknown}) => JSX.Element;
 export type Editor = (props: {

@@ -10,12 +10,12 @@ import {format, isValid} from 'date-fns';
 import 'react-day-picker/dist/style.css';
 
 const data = [
-    {name: 'Ronald', birthdate: new Date('1980-01-30').getTime()},
-    {name: 'Archibald', birthdate: new Date('1982-02-28').getTime()}
+    {name: 'Ronald', birthdate: new Date('1980-01-30')},
+    {name: 'Archibald', birthdate: new Date('1982-02-28')}
 ];
 const schema: REL.Schema = [
     {name: 'name', type: 'string'},
-    {name: 'birthdate', type: 'number'}
+    {name: 'birthdate', type: 'custom'}
 ];
 
 // Loading can be asynchronous
@@ -40,7 +40,6 @@ export default function Dates() {
                 // react-edit-list will pass you the current value in `props.value`
                 // In order to modify it, you will have to call `props.onChange()`
                 birthdate: function BirthDateEditor(props) {
-                    const date = React.useMemo<Date>(() => new Date(props.value), [props]);
                     const render = React.useMemo<string>(() => display(props.value), [props]);
                     const dropdown = React.useRef<HTMLDivElement>();
                     return (
@@ -61,12 +60,12 @@ export default function Dates() {
                             <div className='dropdown-menu' ref={dropdown}>
                                 <ReactDayPicker
                                     mode='single'
-                                    selected={date}
-                                    defaultMonth={date}
+                                    selected={props.value as Date}
+                                    defaultMonth={props.value as Date}
                                     onSelect={React.useCallback(
                                         (value) => {
                                             // Here we send the new date to react-edit-list
-                                            props.onChange(new Date(value).getTime());
+                                            props.onChange(value);
                                             // And then we close the dropdown
                                             dropdown.current.classList.remove('show');
                                         },

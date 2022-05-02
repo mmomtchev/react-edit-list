@@ -14,6 +14,7 @@ Universal Editable List React Component
 -   Supports async callbacks for calling externals APIs
 -   Supports input validation
 -   Supports optional `null` fields
+-   Supports custom field types
 
 # Installation
 
