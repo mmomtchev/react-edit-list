@@ -65,12 +65,26 @@ Refer to the [examples](https://mmomtchev.github.io/react-edit-list/)
     *   [disableUpdate](#disableupdate)
     *   [disableDelete](#disabledelete)
     *   [disableInsert](#disableinsert)
+    *   [tableElement](#tableelement)
+    *   [tbodyElement](#tbodyelement)
+    *   [theadElement](#theadelement)
+    *   [thElement](#thelement)
+    *   [trElement](#trelement)
+    *   [tdElement](#tdelement)
 *   [ReactEditList](#reacteditlist)
     *   [Parameters](#parameters)
 
 ## Element
 
 Field type
+
+`id` means a hidden element that will be carried on by react-edit-list without any processing
+
+`string` and `number` have default rendering and input components
+
+`custom` allows you to define your own rendering and input components
+
+Passing an array of `name`/`value` pairs allows defining of an enum field
 
 Type: (`"id"` | `"string"` | `"number"` | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<{name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), value: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))}> | `"custom"`)
 
@@ -124,7 +138,7 @@ Type: Record<[string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 Custom headers, set to `null` to completely disable headers
 
-Type: Record<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), JSX.Element>
+Type: (Record<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), JSX.Element> | null)
 
 ### onChange
 
@@ -263,6 +277,42 @@ Type: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 Disable inserting
 
 Type: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+
+### tableElement
+
+Element to use instead of table
+
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+
+### tbodyElement
+
+Element to use instead of tbody
+
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+
+### theadElement
+
+Element to use instead of thead
+
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+
+### thElement
+
+Element to use instead of th
+
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+
+### trElement
+
+Element to use instead of tr
+
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, onKeyDown: function (e: React.KeyboardEvent): void?}>)
+
+### tdElement
+
+Element to use instead of table
+
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, onClick: function (e: React.MouseEvent): void?}>)
 
 ## ReactEditList
 
