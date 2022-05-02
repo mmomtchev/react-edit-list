@@ -60,7 +60,7 @@ export interface Props {
     /**
      * Custom headers, set to `null` to completely disable headers
      */
-    headers?: Record<string, JSX.Element>;
+    headers?: Record<string, JSX.Element> | null;
 
     /**
      * Called on every change with all the elements

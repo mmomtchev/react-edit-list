@@ -101,17 +101,24 @@ describe('onUpdate()', () => {
     it('onUpdate() w/enum w/custom editor', async () => {
         let recvItem: REL.Row = {};
         let oldItem: REL.Row = {};
+        const customSchema = [...schema];
+        const field = customSchema.findIndex((e) => e.name === 'product');
+        customSchema[field] = {...customSchema[field]};
+        customSchema[field].type = 'custom';
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => {
             recvItem = item;
             oldItem = old;
         });
         const r = render(
             <ReactEditList
+                format={{
+                    product: (props) => <div className='customFormat'>{props.value as string}</div>
+                }}
                 edit={{
                     product: (props) => <div className='customEditor'>{props.value as string}</div>
                 }}
                 editProps={{price: {max: 2000}}}
-                schema={schema}
+                schema={customSchema}
                 onLoad={onLoad}
                 onUpdate={onUpdate}
             />

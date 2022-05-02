@@ -205,6 +205,7 @@ export default function Item(props: {
                         edit[col.name] = v;
                         setEdit({...edit});
                     };
+                    if (!e) throw new Error(`Field ${col.name}:${col.type} has no editor defined`);
                     const comp = React.createElement(e, {
                         value: edit?.[col.name] ?? '',
                         opts: col.type,
@@ -219,6 +220,7 @@ export default function Item(props: {
                         </td>
                     );
                 }
+                if (!f) throw new Error(`Field ${col.name}:${col.type} has no formatter defined`);
                 return (
                     <td
                         className={tdClassName(col.name)}

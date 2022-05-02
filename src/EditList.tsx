@@ -10,6 +10,9 @@ import Item from './Item';
  * @returns {JSX.Element}
  */
 export default function ReactEditList(props: Props): JSX.Element {
+    if (!props.schema) throw new Error('schema prop is missing');
+    if (!props.onLoad) throw new Error('onLoad callback is missing');
+
     const [data, setData] = React.useState<Row[]>([]);
 
     React.useEffect(() => {
