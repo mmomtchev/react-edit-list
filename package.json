@@ -6,21 +6,21 @@
   "types": "index.d.ts",
   "scripts": {
     "clean": "tsc --build --clean && rimraf docs control style layer interaction",
-    "build": "npm run clean && npm run build:lib && npm run build:examples",
+    "build": "npm run clean && npm run build:lib && npm run build:examples && npm run build:doc",
     "build:lib": "tsc",
     "build:examples": "webpack --mode=production --env production",
+    "build:doc": "documentation readme src/* --section=API --parse-extension=ts --parse-extension=tsx --require-extension=ts --require-extension=tsx --sort-order=source",
     "dev": "webpack-cli serve --mode=development --env development --open",
     "prod": "webpack-cli serve --mode=production --env production --open",
-    "doc:publish": "node publish-ghpages.js",
+    "publish": "node publish-ghpages.js",
     "lint": "eslint './{examples,src}/**/*.{ts,tsx}'",
     "lint:fix": "eslint './{examples,src}/**/*.{ts,tsx}' --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "codecov": "curl -s https://codecov.io/bash | bash",
     "preversion": "npm run test",
-    "version": "npm run clean && npm run build && git add package.json",
-    "postversion": "git push && git push --tags && npm run doc:publish",
-    "postpublish": "gh workflow run test-npm.yml -F version=$npm_package_version"
+    "version": "npm run clean && npm run build && git add package.json README.md",
+    "postversion": "git push && git push --tags && npm run publish"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
   "homepage": "https://mmomtchev.github.io/react-edit-list/",
   "keywords": [
     "react",
+    "edit",
+    "editable",
     "list",
     "listview",
     "es6",
@@ -107,5 +109,8 @@
     "webpack": "^5.20.1",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^4.0.0"
+  },
+  "dependencies": {
+    "documentation": "^13.2.5"
   }
 }

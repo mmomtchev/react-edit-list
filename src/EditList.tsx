@@ -3,6 +3,12 @@ import * as React from 'react';
 import {Schema, Props, Row, Value} from './base';
 import Item from './Item';
 
+/**
+ * An universal editable list for React
+ *
+ * @param props {Props}
+ * @returns {JSX.Element}
+ */
 export default function ReactEditList(props: Props): JSX.Element {
     const [data, setData] = React.useState<Row[]>([]);
 

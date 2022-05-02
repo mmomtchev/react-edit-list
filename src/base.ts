@@ -1,3 +1,6 @@
+/**
+ * Field type
+ */
 export type Element =
     | 'id'
     | 'string'
@@ -6,6 +9,10 @@ export type Element =
     | 'custom';
 
 export type Value = unknown;
+
+/**
+ * Schema for the data
+ */
 export type Schema = {name: string; type: Element}[];
 export type Formatter = (props: {value: Value; opts: unknown}) => JSX.Element;
 export type Editor = (props: {
@@ -15,8 +22,15 @@ export type Editor = (props: {
     editProps?: Record<string, unknown>;
     onChange: (value: Value) => void;
 }) => JSX.Element;
+
+/**
+ * A row of data
+ */
 export type Row = Record<string, Value>;
 
+/**
+ * ReactEditList properties
+ */
 export interface Props {
     /**
      * The schema for the data
@@ -152,16 +166,19 @@ export interface Props {
 
     /**
      * Disable updating
+     * @default false
      */
     disableUpdate?: boolean;
 
     /**
      * Disable deleting
+     * @default false
      */
     disableDelete?: boolean;
 
     /**
      * Disable inserting
+     * @default false
      */
     disableInsert?: boolean;
 }
