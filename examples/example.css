@@ -6,7 +6,8 @@
     width: 10rem;
 }
 
-.no-wrap div {
-    display: flex;
-    flex-direction: row;
+.left-menu button {
+    text-align: left;
+    font-weight: bold;
+    color: #333333;
 }
