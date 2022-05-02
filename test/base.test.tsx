@@ -84,7 +84,7 @@ describe('base', () => {
         r.unmount();
     });
 
-    it('custom elements', async () => {
+    it('custom button elements', async () => {
         const r = render(
             <ReactEditList
                 schema={schema}
@@ -92,6 +92,45 @@ describe('base', () => {
                 btnValidateElement={<button className='btn btn-primary'>YES!</button>}
                 btnCancelElement={<button className='ms-2 btn btn-secondary'>NEVER</button>}
                 btnDeleteElement={<button className='btn btn-danger'>REMOVE</button>}
+            />
+        );
+        await waitFor(() => expect(r.getByText(/Desk/)));
+        expect(r.container.innerHTML).toMatchSnapshot();
+        r.unmount();
+    });
+
+    it('custom grid elements', async () => {
+        const r = render(
+            <ReactEditList
+                schema={schema}
+                onLoad={onLoad}
+                headClassName='container-fluid bg-dark text-light'
+                bodyClassName='container-fluid bg-light'
+                inputClassName='w-100'
+                thClassName={{
+                    product: 'col-lg-4 col-8 p-1',
+                    type: 'col-lg-3 col-4 p-1',
+                    price: 'col-lg-2 col-5 p-1',
+                    stock: 'col-lg-2 col-5 p-1',
+                    buttons: 'col-lg-1 col-2 p-1'
+                }}
+                tdClassName={{
+                    product: 'col-lg-4 col-8 p-1',
+                    type: 'col-lg-3 col-4 p-1',
+                    price: 'col-lg-2 col-5 p-1',
+                    stock: 'col-lg-2 col-5 p-1',
+                    buttons: 'col-lg-1 col-2 p-1'
+                }}
+                trClassName='row'
+                tableElement='div'
+                tbodyElement='div'
+                theadElement='div'
+                trElement='div'
+                tdElement='div'
+                thElement='div'
+                btnValidateClassName='btn border p-0 m-0'
+                btnDeleteClassName='btn border px-1 m-0 mx-1'
+                btnCancelClassName='btn border px-1 m-0 mx-1'
             />
         );
         await waitFor(() => expect(r.getByText(/Desk/)));

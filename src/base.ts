@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Field type
  */
@@ -181,4 +183,44 @@ export interface Props {
      * @default false
      */
     disableInsert?: boolean;
+
+    /**
+     * Element to use instead of table
+     * @default 'table'
+     */
+    tableElement?: string | React.ComponentType<{className?: string}>;
+
+    /**
+     * Element to use instead of tbody
+     * @default 'tbody'
+     */
+    tbodyElement?: string | React.ComponentType<{className?: string}>;
+
+    /**
+     * Element to use instead of thead
+     * @default 'thead'
+     */
+    theadElement?: string | React.ComponentType<{className?: string}>;
+
+    /**
+     * Element to use instead of th
+     * @default 'th'
+     */
+    thElement?: string | React.ComponentType<{className?: string}>;
+
+    /**
+     * Element to use instead of tr
+     * @default 'tr'
+     */
+    trElement?:
+        | string
+        | React.ComponentType<{className?: string; onKeyDown?: (e: React.KeyboardEvent) => void}>;
+
+    /**
+     * Element to use instead of table
+     * @default 'td'
+     */
+    tdElement?:
+        | string
+        | React.ComponentType<{className?: string; onClick?: (e: React.MouseEvent) => void}>;
 }

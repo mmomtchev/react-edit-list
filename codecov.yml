@@ -1,0 +1,16 @@
+ignore:
+    - 'deps/**/*'
+coverage:
+    range: 70..100
+    round: down
+    precision: 2
+    status:
+        project:
+            default:
+                target: auto
+                base: auto
+                threshold: 2%
+                paths:
+                    - 'src'
+        patch:
+            default: 80%

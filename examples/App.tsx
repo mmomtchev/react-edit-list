@@ -9,6 +9,7 @@ import './example.css';
 const examples = {
     simple: {title: 'Simple', file: 'Simple'},
     advanced: {title: 'Advanced', file: 'Advanced'},
+    grid: {title: 'Custom Grid', file: 'CustomGrid'},
     custom: {title: 'Custom Field', file: 'CustomField'}
 };
 

@@ -107,6 +107,12 @@ export default function Item(props: {
     disableDelete?: boolean;
     trClassName?: string;
     tdClassName?: string | Record<string, string>;
+    trElement?:
+        | string
+        | React.ComponentType<{className?: string; onKeyDown?: (e: React.KeyboardEvent) => void}>;
+    tdElement?:
+        | string
+        | React.ComponentType<{className?: string; onClick?: (e: React.MouseEvent) => void}>;
     editProps?: Record<string, Record<string, unknown>>;
 }): JSX.Element {
     const [edit, setEdit] = React.useState<Row | null>(null);
@@ -159,7 +165,7 @@ export default function Item(props: {
         ) : null;
 
     const onKeyDown = React.useCallback(
-        (event) => {
+        (event: React.KeyboardEvent) => {
             if (event.keyCode == 13) {
                 onChange();
             }
@@ -179,66 +185,68 @@ export default function Item(props: {
         props.tdClassName?.[field] ??
         (typeof props.tdClassName === 'string' ? props.tdClassName : undefined);
 
-    return (
-        <tr className={props.trClassName} onKeyDown={edit !== null ? onKeyDown : undefined}>
-            {props.schema.map((col, i) => {
-                let f: Formatter, e: Editor;
-                if (col.type === 'custom') {
-                    f = props.format?.[col.name]!;
-                    e = props.edit?.[col.name]!;
-                } else if (col.type === 'string') {
-                    f = props.format?.[col.name] || DefaultFormatString;
-                    e = props.edit?.[col.name] || DefaultEditString;
-                } else if (col.type === 'number') {
-                    f = props.format?.[col.name] || DefaultFormatNumber;
-                    e = props.edit?.[col.name] || DefaultEditNumber;
-                } else if (typeof col.type === 'object') {
-                    f = props.format?.[col.name] || DefaultFormatEnum;
-                    e = props.edit?.[col.name] || DefaultEditEnum;
-                } else {
-                    return null;
-                }
+    return React.createElement(
+        props.trElement ?? 'tr',
+        {className: props.trClassName, onKeyDown: edit !== null ? onKeyDown : undefined},
+        ...props.schema.map((col, i) => {
+            let f: Formatter, e: Editor;
+            if (col.type === 'custom') {
+                f = props.format?.[col.name]!;
+                e = props.edit?.[col.name]!;
+            } else if (col.type === 'string') {
+                f = props.format?.[col.name] || DefaultFormatString;
+                e = props.edit?.[col.name] || DefaultEditString;
+            } else if (col.type === 'number') {
+                f = props.format?.[col.name] || DefaultFormatNumber;
+                e = props.edit?.[col.name] || DefaultEditNumber;
+            } else if (typeof col.type === 'object') {
+                f = props.format?.[col.name] || DefaultFormatEnum;
+                e = props.edit?.[col.name] || DefaultEditEnum;
+            } else {
+                return null;
+            }
 
-                if (edit !== null) {
-                    const editProps = props.editProps?.[col.name];
-                    const onChange = (v: Value) => {
-                        edit[col.name] = v;
-                        setEdit({...edit});
-                    };
-                    if (!e) throw new Error(`Field ${col.name}:${col.type} has no editor defined`);
-                    const comp = React.createElement(e, {
-                        value: edit?.[col.name] ?? '',
-                        opts: col.type,
-                        className: props.inputClassName,
-                        editProps: editProps,
-                        onChange
-                    });
+            if (edit !== null) {
+                const editProps = props.editProps?.[col.name];
+                const onChange = (v: Value) => {
+                    edit[col.name] = v;
+                    setEdit({...edit});
+                };
+                if (!e) throw new Error(`Field ${col.name}:${col.type} has no editor defined`);
+                const comp = React.createElement(e, {
+                    value: edit?.[col.name] ?? '',
+                    opts: col.type,
+                    className: props.inputClassName,
+                    editProps: editProps,
+                    onChange
+                });
 
-                    return (
-                        <td className={tdClassName(col.name)} key={i}>
-                            {comp}
-                        </td>
-                    );
-                }
-                if (!f) throw new Error(`Field ${col.name}:${col.type} has no formatter defined`);
-                return (
-                    <td
-                        className={tdClassName(col.name)}
-                        onClick={props.disableUpdate ? undefined : () => setEdit({...props.item})}
-                        key={i}
-                    >
-                        {f({value: props?.item?.[col.name], opts: col.type})}
-                    </td>
+                return React.createElement(
+                    props.tdElement ?? 'td',
+                    {className: tdClassName(col.name), key: i},
+                    comp
                 );
-            })}
-            <td className={tdClassName('buttons')}>
-                <div style={{display: 'flex', flexDirection: 'row'}}>
-                    {validateButton}
-                    {cancelButton}
-                    {deleteButton}
-                    {filler}
-                </div>
-            </td>
-        </tr>
+            }
+            if (!f) throw new Error(`Field ${col.name}:${col.type} has no formatter defined`);
+            return React.createElement(
+                props.tdElement ?? 'td',
+                {
+                    className: tdClassName(col.name),
+                    onClick: props.disableUpdate ? undefined : () => setEdit({...props.item}),
+                    key: i
+                },
+                f({value: props?.item?.[col.name], opts: col.type})
+            );
+        }),
+        React.createElement(
+            props.tdElement ?? 'td',
+            {className: tdClassName('buttons')},
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+                {validateButton}
+                {cancelButton}
+                {deleteButton}
+                {filler}
+            </div>
+        )
     );
 }

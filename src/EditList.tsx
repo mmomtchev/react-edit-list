@@ -34,38 +34,53 @@ export default function ReactEditList(props: Props): JSX.Element {
         inputClassName: props.inputClassName,
         trClassName: props.trClassName,
         tdClassName: props.tdClassName,
+        trElement: props.trElement,
+        tdElement: props.tdElement,
         edit: props.edit,
         editProps: props.editProps,
         disableDelete: props.disableDelete,
         disableUpdate: props.disableUpdate
     };
 
-    return (
-        <table className={props.className}>
-            {props.headers !== null ? (
-                <thead className={props.headClassName}>
-                    <tr className={props.trClassName}>
-                        {props.schema.map((col, i) => {
-                            if (col.type === 'id') return null;
-                            const className = props.thClassName?.[col.name] || props.thClassName;
-                            if (props.headers?.[col.name])
-                                return (
-                                    <th className={className} key={i}>
-                                        {props.headers[col.name]}
-                                    </th>
-                                );
-                            return (
-                                <th className={className} key={i}>
-                                    {col.name}
-                                </th>
-                            );
-                        })}
-                        <th className={props.thClassName?.['buttons'] || props.thClassName}></th>
-                    </tr>
-                </thead>
-            ) : null}
-            <tbody className={props.bodyClassName}>
-                {data.map((item, i) => (
+    return React.createElement(
+        props.tableElement ?? 'table',
+        {
+            className: props.className
+        },
+        [
+            props.headers !== null
+                ? React.createElement(
+                      props.theadElement ?? 'thead',
+                      {key: 'thead', className: props.headClassName},
+                      React.createElement(
+                          props.trElement ?? 'tr',
+                          {className: props.trClassName},
+                          ...props.schema.map((col, i) => {
+                              if (col.type === 'id') return null;
+                              const className = props.thClassName?.[col.name] || props.thClassName;
+                              if (props.headers?.[col.name])
+                                  return React.createElement(
+                                      props.thElement ?? 'th',
+                                      {key: i, className},
+                                      props.headers[col.name]
+                                  );
+                              return React.createElement(
+                                  props.thElement ?? 'th',
+                                  {key: i, className},
+                                  col.name
+                              );
+                          }),
+                          React.createElement(props.thElement ?? 'th', {
+                              key: 'buttons',
+                              className: props.thClassName?.['buttons'] || props.thClassName
+                          })
+                      )
+                  )
+                : null,
+            React.createElement(
+                props.tbodyElement ?? 'tbody',
+                {key: 'tbody', className: props.bodyClassName},
+                ...data.map((item, i) => (
                     <Item
                         key={i}
                         item={item}
@@ -96,8 +111,8 @@ export default function ReactEditList(props: Props): JSX.Element {
                             setData([...modifiedData]);
                         }}
                     />
-                ))}
-                {props.disableInsert ? null : (
+                )),
+                props.disableInsert ? null : (
                     <Item
                         item={props.defaultValues}
                         {...sharedProps}
@@ -116,8 +131,8 @@ export default function ReactEditList(props: Props): JSX.Element {
                             setData([...data]);
                         }}
                     />
-                )}
-            </tbody>
-        </table>
+                )
+            )
+        ]
     );
 }
