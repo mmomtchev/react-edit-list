@@ -46,10 +46,6 @@ export default function Simple() {
                 // Call your API here
                 console.log('INSERT', item);
             }}
-            onChange={(items) => {
-                // Process the whole list
-                console.log('DATA', items);
-            }}
             className='table table-light table-fixed align-middle'
             headClassName='table-dark'
             inputClassName='w-100'
