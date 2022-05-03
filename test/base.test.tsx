@@ -138,6 +138,37 @@ describe('base', () => {
         r.unmount();
     });
 
+    it('reference forwarding', async () => {
+        const onLoadFn = jest.fn(onLoad);
+        const ref = React.createRef<HTMLElement>();
+        const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} ref={ref} />);
+        await waitFor(() => expect(r.getByText(/Desk/)));
+        expect(onLoadFn).toBeCalledTimes(1);
+        expect(r.container.innerHTML).toMatchSnapshot();
+        expect(ref.current?.tagName.toLowerCase()).toBe('table');
+        ref.current?.dispatchEvent(
+            new KeyboardEvent('keydown', {key: 'R', altKey: true, bubbles: true})
+        );
+        await waitFor(() => expect(onLoadFn).toBeCalledTimes(2));
+        r.unmount();
+    });
+
+    it('externally triggered refresh', async () => {
+        const onLoadFn = jest.fn(onLoad);
+        const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} />);
+        await waitFor(() => expect(r.getByText(/Desk/)));
+        expect(r.container.innerHTML).toMatchSnapshot();
+        expect(onLoadFn).toBeCalledTimes(1);
+        await fireEvent.keyDown(r.container.querySelector('table')!, {
+            key: 'R',
+            altKey: true
+        });
+        expect(onLoadFn).toBeCalledTimes(2);
+        await waitFor(() => expect(r.getByText(/Desk/)));
+        expect(r.container.innerHTML).toMatchSnapshot();
+        r.unmount();
+    });
+
     describe('errors', () => {
         let err;
         beforeEach(() => {

@@ -9,18 +9,32 @@ import Item from './Item';
  * @param props {Props}
  * @returns {JSX.Element}
  */
-export default function ReactEditList(props: Props): JSX.Element {
+const ReactEditList = React.forwardRef(function ReactEditList(
+    props: Props,
+    ref: React.Ref<HTMLElement>
+): JSX.Element {
     if (!props.schema) throw new Error('schema prop is missing');
     if (!props.onLoad) throw new Error('onLoad callback is missing');
 
     const [data, setData] = React.useState<Row[]>([]);
 
-    React.useEffect(() => {
+    const onLoad = React.useCallback(() => {
         const dataq = props.onLoad();
 
         if (dataq instanceof Promise) dataq.then((data) => setData(data));
         else setData(dataq);
     }, [props, setData]);
+
+    React.useEffect(onLoad, [onLoad]);
+    const onKeyDown = React.useCallback(
+        (event: React.KeyboardEvent) => {
+            if (event.altKey && event.key == 'R') {
+                onLoad();
+                event.stopPropagation();
+            }
+        },
+        [onLoad]
+    );
 
     const sharedProps = {
         schema: props.schema,
@@ -45,7 +59,9 @@ export default function ReactEditList(props: Props): JSX.Element {
     return React.createElement(
         props.tableElement ?? 'table',
         {
-            className: props.className
+            className: props.className,
+            ref,
+            onKeyDown
         },
         [
             props.headers !== null
@@ -135,4 +151,6 @@ export default function ReactEditList(props: Props): JSX.Element {
             )
         ]
     );
-}
+});
+
+export default ReactEditList;

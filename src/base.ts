@@ -233,7 +233,7 @@ export interface Props {
      * Element to use instead of <table>
      * @default 'table'
      */
-    tableElement?: string | React.FunctionComponent<{className?: string}>;
+    tableElement?: string;
 
     /**
      * Element to use instead of <tbody>

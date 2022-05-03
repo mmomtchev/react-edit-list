@@ -33,7 +33,15 @@ export default function Dates() {
             onUpdate={validate}
             format={{
                 // You have to provide a custom React component for rendering the field
-                birthdate: (props) => <React.Fragment>{display(props.value)}</React.Fragment>
+                // As we can potentially have many hundreds of these, it is highly recommended
+                // to use useMemo / useCallback everywhere
+                birthdate: function BirthDateRenderer(props) {
+                    return (
+                        <React.Fragment>
+                            {React.useMemo<string>(() => display(props.value), [props.value])}
+                        </React.Fragment>
+                    );
+                }
             }}
             edit={{
                 // You have to provide a custom editor that is a React component

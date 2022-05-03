@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] WIP
 
 -   Support custom grid elements
+-   Support reference forwarding
+-   Support externally triggered data refresh
 
 # [1.0.0] 2021-05-02
 

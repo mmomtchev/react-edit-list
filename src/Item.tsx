@@ -168,11 +168,13 @@ export default function Item(props: {
 
     const onKeyDown = React.useCallback(
         (event: React.KeyboardEvent) => {
-            if (event.keyCode == 13) {
+            if (event.key == 'Enter') {
                 onChange();
+                event.stopPropagation();
             }
-            if (event.keyCode == 27) {
+            if (event.key == 'Escape') {
                 onCancel();
+                event.stopPropagation();
             }
         },
         [onChange, onCancel]
