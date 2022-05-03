@@ -54,11 +54,48 @@ export interface Props {
 
     /**
      * Custom field formatters
+     *
+     * Each field formatter must be a React component
+     *
+     * It will receive the value to be rendered in `props.value`
+     *
+     * @example
+     * function DefaultFormatString(props: {value: Value}): JSX.Element {
+     *   return <React.Fragment>{props.value as string}</React.Fragment>;
+     * }
      */
     format?: Record<string, Formatter>;
 
     /**
      * Custom field editors
+     *
+     * Each field editor must be a React component
+     *
+     * It will receive the previous value in `props.value` and
+     * should call `props.onChange` to update it
+     *
+     * @example
+     * function DefaultEditString(props: {
+     *   value: Value;
+     *   opts?: unknown;
+     *   className?: string;
+     *   editProps?: Record<string, unknown>;
+     *   onChange: (v: Value) => void;
+     * }) {
+     *   const onChange = React.useCallback(
+     *     (e) => props.onChange(e.target.value != '' ? e.target.value : undefined),
+     *     [props]
+     *   );
+     *   return (
+     *     <input
+     *       className={props.className}
+     *       {...props.editProps}
+     *       value={props.value as string}
+     *       type='text'
+     *       onChange={onChange}
+     *     />
+     *   );
+     * }
      */
     edit?: Record<string, Editor>;
 
