@@ -110,7 +110,9 @@ const ReactEditList = React.forwardRef(function ReactEditList(
                             const modifiedData = [...data];
                             modifiedData[modifiedData.findIndex((x) => x === item)] = modified;
                             if (props.onChange) {
-                                if ((await props.onChange(modifiedData)) === false) return false;
+                                const update = await props.onChange(modifiedData);
+                                if (update === false) return false;
+                                if (update === true) return onLoad();
                             }
                             setData([...modifiedData]);
                         }}
@@ -122,7 +124,9 @@ const ReactEditList = React.forwardRef(function ReactEditList(
                             const modifiedData = [...data];
                             modifiedData.splice(idx, 1);
                             if (props.onChange) {
-                                if ((await props.onChange(modifiedData)) === false) return false;
+                                const update = await props.onChange(modifiedData);
+                                if (update === false) return false;
+                                if (update === true) return onLoad();
                             }
                             setData([...modifiedData]);
                         }}
@@ -141,7 +145,9 @@ const ReactEditList = React.forwardRef(function ReactEditList(
                             if (props.onChange) {
                                 const modifiedData = [...data];
                                 modifiedData.push(modified);
-                                if ((await props.onChange(modifiedData)) === false) return false;
+                                const update = await props.onChange(modifiedData);
+                                if (update === false) return false;
+                                if (update === true) return onLoad();
                             }
                             data.push(modified);
                             setData([...data]);

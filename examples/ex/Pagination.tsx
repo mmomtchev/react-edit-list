@@ -42,10 +42,6 @@ export default function Simple() {
         [page]
     );
 
-    const refresh = () =>
-        ref.current?.dispatchEvent(
-            new KeyboardEvent('keydown', {key: 'R', altKey: true, bubbles: true})
-        );
     const totalPages = Math.ceil(data.length / perPage);
 
     return (
@@ -91,18 +87,15 @@ export default function Simple() {
                 schema={schema}
                 // Every time this function changes, React will trigger an update
                 onLoad={onLoad}
-                // These operations need a refresh because the number of elements
-                // on the current page might change
-                onUpdate={refresh}
-                onInsert={refresh}
                 onDelete={(item) => {
                     if (!confirm('Are you sure you want to delete it?')) return false;
-                    refresh();
                 }}
-                // This allows to keep the data, it won't be necessary for
-                // a component interfaced with a real API
                 onChange={(items) => {
+                    // Here you should call your API
                     data.splice(page * perPage, perPage, ...items);
+
+                    // Force a reload
+                    return true;
                 }}
                 className='table table-light table-fixed align-middle'
                 headClassName='table-dark'

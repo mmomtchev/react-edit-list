@@ -112,14 +112,18 @@ export interface Props {
     /**
      * Called on every change with all the elements
      *
-     * Return `boolean` to deny the operation
+     * Return `false` to deny the operation
+     *
+     * Return `true` to trigger a refresh through `onLoad`
+     *
+     * Return `undefined` for default behavior
      */
     onChange?: (data: Row[]) => boolean | void | Promise<boolean | void>;
 
     /**
      * Called after insertion of a new element
      *
-     * Return `boolean` to deny the operation
+     * Return `false` to deny the operation
      *
      * Return a new item to modify its contents
      */
@@ -128,7 +132,7 @@ export interface Props {
     /**
      * Called after updating an existing element
      *
-     * Return `boolean` to deny the operation
+     * Return `false` to deny the operation
      *
      * Return a new item to modify its contents
      */
@@ -137,7 +141,7 @@ export interface Props {
     /**
      * Called after deleting an element
      *
-     * Return `boolean` to deny the operation
+     * Return `false` to deny the operation
      */
     onDelete?: (item: Row) => boolean | void | Promise<boolean | void>;
 
