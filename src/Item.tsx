@@ -107,12 +107,14 @@ export default function Item(props: {
     disableDelete?: boolean;
     trClassName?: string;
     tdClassName?: string | Record<string, string>;
-    trElement?:
-        | string
-        | React.ComponentType<{className?: string; onKeyDown?: (e: React.KeyboardEvent) => void}>;
+    trElement?: string | React.FunctionComponent<{className?: string}>;
     tdElement?:
         | string
-        | React.ComponentType<{className?: string; onClick?: (e: React.MouseEvent) => void}>;
+        | React.FunctionComponent<{
+              className?: string;
+              onClick?: (e: React.MouseEvent) => void;
+              onKeyDown?: (e: React.KeyboardEvent) => void;
+          }>;
     editProps?: Record<string, Record<string, unknown>>;
 }): JSX.Element {
     const [edit, setEdit] = React.useState<Row | null>(null);
@@ -187,7 +189,7 @@ export default function Item(props: {
 
     return React.createElement(
         props.trElement ?? 'tr',
-        {className: props.trClassName, onKeyDown: edit !== null ? onKeyDown : undefined},
+        {className: props.trClassName},
         ...props.schema.map((col, i) => {
             let f: Formatter, e: Editor;
             if (col.type === 'custom') {
@@ -223,7 +225,11 @@ export default function Item(props: {
 
                 return React.createElement(
                     props.tdElement ?? 'td',
-                    {className: tdClassName(col.name), key: i},
+                    {
+                        className: tdClassName(col.name),
+                        key: i,
+                        onKeyDown: edit !== null ? onKeyDown : undefined
+                    },
                     comp
                 );
             }

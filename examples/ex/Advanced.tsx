@@ -10,6 +10,7 @@ const data = [
     {id: 3, product: 'Paper', type: '2', price: 5, stock: 2000},
     {id: 4, product: 'Chair', type: '1', price: 50, stock: 50},
     {id: 5, product: 'Computer', type: '1', price: 1000, stock: 20},
+    // There can be optional values
     {id: 6, product: 'Rent', type: null, price: 2000, stock: undefined}
 ];
 const schema: REL.Schema = [
@@ -18,6 +19,7 @@ const schema: REL.Schema = [
     {
         name: 'type',
         type: [
+            // Enum types can have a null value
             {value: null, name: ''},
             {value: '1', name: 'capex'},
             {value: '2', name: 'consumable'}
@@ -81,7 +83,8 @@ export default function Advanced() {
             }}
             // You can provide arbitrary props to be passed to the `input` element
             editProps={{
-                price: {min: 0, max: 2000, step: 5}
+                price: {min: 5, max: 2000, step: 5},
+                stock: {min: 0}
             }}
             className='table table-striped table-fixed align-middle'
             headClassName='table-light'

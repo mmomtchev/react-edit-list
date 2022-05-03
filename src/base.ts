@@ -24,14 +24,14 @@ export type Value = unknown;
  * Schema for the data
  */
 export type Schema = {name: string; type: Element}[];
-export type Formatter = (props: {value: Value; opts: unknown}) => JSX.Element;
-export type Editor = (props: {
+export type Formatter = React.FunctionComponent<{value: Value; opts: unknown}>;
+export type Editor = React.FunctionComponent<{
     value: Value;
     opts?: unknown;
     className?: string;
     editProps?: Record<string, unknown>;
     onChange: (value: Value) => void;
-}) => JSX.Element;
+}>;
 
 /**
  * A row of data
@@ -230,42 +230,47 @@ export interface Props {
     disableInsert?: boolean;
 
     /**
-     * Element to use instead of table
+     * Element to use instead of <table>
      * @default 'table'
      */
-    tableElement?: string | React.ComponentType<{className?: string}>;
+    tableElement?: string | React.FunctionComponent<{className?: string}>;
 
     /**
-     * Element to use instead of tbody
+     * Element to use instead of <tbody>
      * @default 'tbody'
      */
-    tbodyElement?: string | React.ComponentType<{className?: string}>;
+    tbodyElement?: string | React.FunctionComponent<{className?: string}>;
 
     /**
-     * Element to use instead of thead
+     * Element to use instead of <thead>
      * @default 'thead'
      */
-    theadElement?: string | React.ComponentType<{className?: string}>;
+    theadElement?: string | React.FunctionComponent<{className?: string}>;
 
     /**
-     * Element to use instead of th
+     * Element to use instead of <th>
      * @default 'th'
      */
-    thElement?: string | React.ComponentType<{className?: string}>;
+    thElement?: string | React.FunctionComponent<{className?: string}>;
 
     /**
-     * Element to use instead of tr
+     * Element to use instead of <tr>
      * @default 'tr'
      */
-    trElement?:
-        | string
-        | React.ComponentType<{className?: string; onKeyDown?: (e: React.KeyboardEvent) => void}>;
+    trElement?: string | React.FunctionComponent<{className?: string}>;
 
     /**
-     * Element to use instead of table
+     * Element to use instead of <td>
+     *
+     * Element must accept mouse and keyboard input
+     *
      * @default 'td'
      */
     tdElement?:
         | string
-        | React.ComponentType<{className?: string; onClick?: (e: React.MouseEvent) => void}>;
+        | React.FunctionComponent<{
+              className?: string;
+              onClick?: (e: React.MouseEvent) => void;
+              onKeyDown?: (e: React.KeyboardEvent) => void;
+          }>;
 }
