@@ -172,10 +172,13 @@ describe('base', () => {
     describe('errors', () => {
         let err;
         beforeEach(() => {
+            // eslint-disable-next-line no-console
             err = console.error;
+            // eslint-disable-next-line no-console
             console.error = () => undefined;
         });
         afterEach(() => {
+            // eslint-disable-next-line no-console
             console.error = err;
         });
 

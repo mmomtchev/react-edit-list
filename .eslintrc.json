@@ -44,6 +44,7 @@
         "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
+        "no-console": "warn",
         "quotes": [
             2,
             "single",
@@ -57,5 +58,15 @@
         "react": {
             "version": "detect"
         }
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "examples/ex/*.tsx"
+            ],
+            "rules": {
+                "no-console": "off"
+            }
+        }
+    ]
 }
