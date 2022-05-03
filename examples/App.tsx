@@ -10,6 +10,7 @@ const examples = {
     simple: {title: 'Simple', file: 'Simple'},
     advanced: {title: 'Advanced', file: 'Advanced'},
     grid: {title: 'Custom Grid', file: 'CustomGrid'},
+    pagination: {title: 'Pagination', file: 'Pagination'},
     custom: {title: 'Custom Field', file: 'CustomField'}
 };
 
