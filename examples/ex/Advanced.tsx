@@ -11,7 +11,7 @@ const data = [
     {id: 4, product: 'Chair', type: '1', price: 50, stock: 50},
     {id: 5, product: 'Computer', type: '1', price: 1000, stock: 20},
     // There can be optional values
-    {id: 6, product: 'Rent', type: null, price: 2000, stock: undefined}
+    {id: 6, product: 'Rent', type: undefined, price: 2000, stock: undefined}
 ];
 const schema: REL.Schema = [
     {name: 'id', type: 'id'},
@@ -20,7 +20,7 @@ const schema: REL.Schema = [
         name: 'type',
         type: [
             // Enum types can have a null value
-            {value: null, name: ''},
+            {value: undefined, name: ''},
             {value: '1', name: 'capex'},
             {value: '2', name: 'consumable'}
         ]
@@ -116,6 +116,14 @@ export default function Advanced() {
                 btnValidateElement={<button className='btn btn-primary'>YES!</button>}
                 btnCancelElement={<button className='ms-2 btn btn-secondary'>NEVER</button>}
                 btnDeleteElement={<button className='btn btn-danger'>REMOVE</button>}
+                // New items can have default values
+                defaultValues={{
+                    type: 1,
+                    price: 5,
+                    stock: 10
+                }}
+                // The element used for the empty row can be configured
+                filler={<React.Fragment>&#8230;</React.Fragment>}
             />
         </div>
     );

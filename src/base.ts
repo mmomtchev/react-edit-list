@@ -277,4 +277,11 @@ export interface Props {
               onClick?: (e: React.MouseEvent) => void;
               onKeyDown?: (e: React.KeyboardEvent) => void;
           }>;
+
+    /**
+     * Element to use for the empty row that allows adding a new item
+     *
+     * @default '<React.Fragment>&nbsp;</React.Fragment>'
+     */
+    filler?: JSX.Element;
 }

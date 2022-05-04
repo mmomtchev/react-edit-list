@@ -33,7 +33,7 @@ function DefaultEditNumber(props: {
         <input
             className={props.className}
             {...props.editProps}
-            value={props.value as number}
+            value={(props.value as number) ?? ''}
             type='number'
             onChange={onChange}
         />
@@ -55,7 +55,7 @@ function DefaultEditString(props: {
         <input
             className={props.className}
             {...props.editProps}
-            value={props.value as string}
+            value={(props.value as string) ?? ''}
             type='text'
             onChange={onChange}
         />
@@ -77,7 +77,7 @@ function DefaultEditEnum(props: {
         <select
             {...props.editProps}
             className={props.className}
-            value={(props.value ?? '') as string}
+            value={(props.value as string) ?? ''}
             onChange={onChange}
         >
             {(props.opts as {name: string; value: string}[]).map((opt, i) => (
@@ -116,6 +116,8 @@ export default function Item(props: {
               onKeyDown?: (e: React.KeyboardEvent) => void;
           }>;
     editProps?: Record<string, Record<string, unknown>>;
+    defaultValues?: Row;
+    filler?: JSX.Element;
 }): JSX.Element {
     const [edit, setEdit] = React.useState<Row | null>(null);
 
@@ -181,9 +183,9 @@ export default function Item(props: {
     );
 
     const filler =
-        props.item === undefined && edit === null ? (
-            <React.Fragment>&nbsp;</React.Fragment>
-        ) : undefined;
+        props.item === undefined && edit === null
+            ? props.filler ?? <React.Fragment>&nbsp;</React.Fragment>
+            : undefined;
 
     const tdClassName = (field) =>
         props.tdClassName?.[field] ??
@@ -217,8 +219,10 @@ export default function Item(props: {
                     setEdit({...edit});
                 };
                 if (!e) throw new Error(`Field ${col.name}:${col.type} has no editor defined`);
+                if (edit?.[col.name] === undefined)
+                    edit[col.name] = props.defaultValues?.[col.name];
                 const comp = React.createElement(e, {
-                    value: edit?.[col.name] ?? '',
+                    value: edit[col.name] ?? '',
                     opts: col.type,
                     className: props.inputClassName,
                     editProps: editProps,
@@ -243,7 +247,9 @@ export default function Item(props: {
                     onClick: props.disableUpdate ? undefined : () => setEdit({...props.item}),
                     key: i
                 },
-                f({value: props?.item?.[col.name], opts: col.type})
+                props.item !== undefined
+                    ? f({value: props?.item?.[col.name], opts: col.type})
+                    : filler
             );
         }),
         React.createElement(
@@ -253,7 +259,6 @@ export default function Item(props: {
                 {validateButton}
                 {cancelButton}
                 {deleteButton}
-                {filler}
             </div>
         )
     );

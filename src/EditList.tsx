@@ -134,8 +134,9 @@ const ReactEditList = React.forwardRef(function ReactEditList(
                 )),
                 props.disableInsert ? null : (
                     <Item
-                        item={props.defaultValues}
                         {...sharedProps}
+                        defaultValues={props.defaultValues}
+                        filler={props.filler}
                         onChange={async (modified: Row) => {
                             if (props.onInsert) {
                                 const update = await props.onInsert(modified);

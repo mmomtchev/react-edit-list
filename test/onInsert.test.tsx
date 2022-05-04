@@ -105,4 +105,39 @@ describe('onInsert()', () => {
         expect(cells[cells.length - 5].children[0]).toHaveAttribute('value', 'Rent');
         r.unmount();
     });
+
+    it('onInsert() defaultValues and filler', async () => {
+        let recvItem: REL.Row = {};
+        const onInsert = jest.fn((item: REL.Row): void => {
+            recvItem = item;
+        });
+        const r = render(
+            <ReactEditList
+                schema={schema}
+                onLoad={onLoad}
+                onInsert={onInsert}
+                defaultValues={{stock: 42}}
+                filler={<span>...</span>}
+            />
+        );
+        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        expect(r.container.innerHTML).toMatchSnapshot();
+
+        fireEvent((await r.findAllByText('...'))[0], new MouseEvent('click', {bubbles: true}));
+        await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
+        expect(r.container.innerHTML).toMatchSnapshot();
+
+        const inputs = r.container.querySelectorAll('input');
+        fireEvent.change(inputs[0], {target: {value: 'default item'}});
+        fireEvent(await r.findByText('✓'), new MouseEvent('click', {bubbles: true}));
+        expect(onInsert).toBeCalledTimes(1);
+
+        await waitFor(() => expect(recvItem.product).toBe('default item'));
+        expect(recvItem.type).toBeUndefined();
+        expect(recvItem.price).toBeUndefined();
+        expect(recvItem.stock).toBe(42);
+        await waitFor(() => expect(r.container.querySelectorAll('input')).toHaveLength(0));
+        expect(r.container.innerHTML).toMatchSnapshot();
+        r.unmount();
+    });
 });
