@@ -92,9 +92,18 @@ describe('base', () => {
                 btnValidateElement={<button className='btn btn-primary'>YES!</button>}
                 btnCancelElement={<button className='ms-2 btn btn-secondary'>NEVER</button>}
                 btnDeleteElement={<button className='btn btn-danger'>REMOVE</button>}
+                filler={<React.Fragment>...</React.Fragment>}
             />
         );
         await waitFor(() => expect(r.getByText(/Desk/)));
+        expect(r.container.innerHTML).toMatchSnapshot();
+
+        fireEvent((await r.findAllByText('...'))[0], new MouseEvent('click', {bubbles: true}));
+        await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
+        expect(r.container.innerHTML).toMatchSnapshot();
+
+        fireEvent(await r.findByText('YES!'), new MouseEvent('click', {bubbles: true}));
+        await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(0));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
