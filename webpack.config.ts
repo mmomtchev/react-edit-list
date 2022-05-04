@@ -5,75 +5,84 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import {TsconfigPathsPlugin} from 'tsconfig-paths-webpack-plugin';
 
-const webpackConfig = (env): Configuration => ({
-    entry: './examples/index.tsx',
-    ...(env.production || !env.development ? {} : {devtool: 'eval-source-map'}),
-    resolve: {
-        alias: {
-            'react-edit-list': path.resolve(__dirname, 'src')
+const webpackConfig = (env): Configuration => {
+    const conf: Configuration = {
+        entry: './examples/index.tsx',
+        ...(env.production || !env.development ? {} : {devtool: 'eval-source-map'}),
+        resolve: {
+            alias: {
+                'react-edit-list': path.resolve(__dirname, 'src')
+            },
+            extensions: ['.ts', '.tsx', '.js'],
+            //TODO waiting on https://github.com/dividab/tsconfig-paths-webpack-plugin/issues/61
+            //@ts-ignore
+            plugins: [new TsconfigPathsPlugin()]
         },
-        extensions: ['.ts', '.tsx', '.js'],
-        //TODO waiting on https://github.com/dividab/tsconfig-paths-webpack-plugin/issues/61
-        //@ts-ignore
-        plugins: [new TsconfigPathsPlugin()]
-    },
-    output: {
-        path: path.join(__dirname, '/docs'),
-        filename: 'bundle.js'
-    },
-    // https://github.com/TypeStrong/ts-loader/issues/751
-    ignoreWarnings: [{message: /export .* was not found in/}],
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-                options: {
-                    transpileOnly: true,
-                    configFile: 'examples/tsconfig.json'
+        output: {
+            path: path.join(__dirname, '/docs'),
+            filename: 'bundle.js'
+        },
+        // https://github.com/TypeStrong/ts-loader/issues/751
+        ignoreWarnings: [{message: /export .* was not found in/}],
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    loader: 'ts-loader',
+                    options: {
+                        transpileOnly: true,
+                        configFile: 'examples/tsconfig.json'
+                    },
+                    exclude: /dist/
                 },
-                exclude: /dist/
-            },
-            {
-                test: /\.jsx$/,
-                use: 'raw-loader'
-            },
-            {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.svg$/,
-                loader: 'svg-url-loader'
-            },
-            {
-                test: /\.md$/,
-                use: ['html-loader', 'markdown-loader']
-            }
-        ]
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './examples/index.html'
-        }),
-        new webpack.DefinePlugin({
-            process: {
-                env: {
-                    DEBUG: !env.production || env.development
+                {
+                    test: /\.jsx$/,
+                    use: 'raw-loader'
+                },
+                {
+                    test: /\.css$/i,
+                    use: ['style-loader', 'css-loader']
+                },
+                {
+                    test: /\.svg$/,
+                    loader: 'svg-url-loader'
+                },
+                {
+                    test: /\.md$/,
+                    use: ['html-loader', 'markdown-loader']
                 }
-            },
-            VERSION: JSON.stringify(require('./package.json').version)
-        }),
-        new ForkTsCheckerWebpackPlugin({
-            eslint: {
-                files: './{src,examples}/**/*.{ts,tsx,js}'
-            }
-        })
-    ],
-    devServer: {
-        port: 8030,
-        allowedHosts: ['all']
+            ]
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: './examples/index.html'
+            }),
+            new webpack.DefinePlugin({
+                process: {
+                    env: {
+                        DEBUG: !env.production || env.development
+                    }
+                },
+                VERSION: JSON.stringify(require('./package.json').version)
+            })
+        ],
+        devServer: {
+            port: 8030,
+            allowedHosts: ['all']
+        }
+    };
+
+    if (env.production) {
+        conf.plugins.push(
+            new ForkTsCheckerWebpackPlugin({
+                eslint: {
+                    files: './{src,examples}/**/*.{ts,tsx,js}'
+                }
+            })
+        );
     }
-});
+
+    return conf;
+};
 
 export default webpackConfig;
