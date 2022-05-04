@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Support reference forwarding
 -   Support externally triggered data refresh
 -   Support custom fillers and default values
+-   Support integration with `sortablejs` for drag&drop reordering
 
 # [1.0.0] 2021-05-02
 

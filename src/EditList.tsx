@@ -36,6 +36,13 @@ const ReactEditList = React.forwardRef(function ReactEditList(
         [onLoad]
     );
 
+    let rowClassName = props.trClassName;
+    if (props.rowClassName)
+        rowClassName = (rowClassName ? rowClassName + ' ' : '') + props.rowClassName;
+    let insertClassName = props.trClassName;
+    if (props.insertClassName)
+        insertClassName = (insertClassName ? insertClassName + ' ' : '') + props.insertClassName;
+
     const sharedProps = {
         schema: props.schema,
         format: props.format,
@@ -46,7 +53,6 @@ const ReactEditList = React.forwardRef(function ReactEditList(
         btnCancelClassName: props.btnCancelClassName,
         btnCancelElement: props.btnCancelElement,
         inputClassName: props.inputClassName,
-        trClassName: props.trClassName,
         tdClassName: props.tdClassName,
         trElement: props.trElement,
         tdElement: props.tdElement,
@@ -100,7 +106,9 @@ const ReactEditList = React.forwardRef(function ReactEditList(
                     <Item
                         key={i}
                         item={item}
+                        dataid={i}
                         {...sharedProps}
+                        trClassName={rowClassName}
                         onChange={async (modified: Row) => {
                             if (props.onUpdate) {
                                 const update = await props.onUpdate(modified, item);
@@ -134,9 +142,11 @@ const ReactEditList = React.forwardRef(function ReactEditList(
                 )),
                 props.disableInsert ? null : (
                     <Item
+                        dataid={data.length}
                         {...sharedProps}
                         defaultValues={props.defaultValues}
                         filler={props.filler}
+                        trClassName={insertClassName}
                         onChange={async (modified: Row) => {
                             if (props.onInsert) {
                                 const update = await props.onInsert(modified);

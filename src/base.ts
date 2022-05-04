@@ -261,7 +261,7 @@ export interface Props {
      * Element to use instead of <tr>
      * @default 'tr'
      */
-    trElement?: string | React.FunctionComponent<{className?: string}>;
+    trElement?: string | React.FunctionComponent<{className?: string; dataid?: number}>;
 
     /**
      * Element to use instead of <td>
@@ -284,4 +284,10 @@ export interface Props {
      * @default '<React.Fragment>&nbsp;</React.Fragment>'
      */
     filler?: JSX.Element;
+
+    /** Optional class to use for regular rows */
+    rowClassName?: string;
+
+    /** Optional class to use for the empty row allowing insertion */
+    insertClassName?: string;
 }

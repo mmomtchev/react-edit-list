@@ -11,7 +11,8 @@ const examples = {
     advanced: {title: 'Advanced', file: 'Advanced'},
     grid: {title: 'Custom Grid', file: 'CustomGrid'},
     pagination: {title: 'Pagination', file: 'Pagination'},
-    custom: {title: 'Custom Field', file: 'CustomField'}
+    custom: {title: 'Custom Field', file: 'CustomField'},
+    reordering: {title: 'Reordering', file: 'Reordering'}
 };
 
 // The examples use a code-loading technique that I have described in

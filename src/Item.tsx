@@ -94,6 +94,7 @@ export default function Item(props: {
     format?: Record<string, Formatter>;
     edit?: Record<string, Editor>;
     item?: Row;
+    dataid: number;
     onChange: (modified: Row) => Promise<false | void>;
     onDelete?: () => void;
     btnValidateClassName?: string;
@@ -107,7 +108,7 @@ export default function Item(props: {
     disableDelete?: boolean;
     trClassName?: string;
     tdClassName?: string | Record<string, string>;
-    trElement?: string | React.FunctionComponent<{className?: string}>;
+    trElement?: string | React.FunctionComponent<{className?: string; dataid?: number}>;
     tdElement?:
         | string
         | React.FunctionComponent<{
@@ -193,7 +194,7 @@ export default function Item(props: {
 
     return React.createElement(
         props.trElement ?? 'tr',
-        {className: props.trClassName},
+        {className: props.trClassName, dataid: props.dataid},
         ...props.schema.map((col, i) => {
             let f: Formatter, e: Editor;
             if (col.type === 'custom') {
