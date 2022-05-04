@@ -11,3 +11,8 @@
     font-weight: bold;
     color: #333333;
 }
+
+.btn-width {
+    width: 3rem;
+    text-align: end;
+}

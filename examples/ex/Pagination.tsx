@@ -19,7 +19,7 @@ const schema: REL.Schema = [
 ];
 
 const data: REL.Row[] = [];
-for (let i = 0; i < 10000; i++) {
+for (let i = 0; i < 9995; i++) {
     data.push({
         id: i,
         product: `Product #${i}`,
@@ -49,37 +49,43 @@ export default function Simple() {
             {/* This is standard Bootstrap pagination */}
             <nav>
                 <ul className='pagination user-select-none'>
-                    {page > 0 ? (
-                        <React.Fragment>
-                            <li className='page-item'>
-                                <a className='page-link' onClick={() => setPage(page - 1)}>
-                                    Previous
-                                </a>
-                            </li>
-                            <li className='page-item'>
-                                <a className='page-link' onClick={() => setPage(page - 1)}>
-                                    {page}
-                                </a>
-                            </li>
-                        </React.Fragment>
-                    ) : null}
-                    <li className='page-item active'>
-                        <a className='page-link active'>{page + 1}</a>
+                    <li className='page-item'>
+                        <a className='page-link' onClick={() => setPage(0)}>
+                            First
+                        </a>
                     </li>
-                    {page < totalPages - 1 ? (
-                        <React.Fragment>
-                            <li className='page-item'>
-                                <a className='page-link' onClick={() => setPage(page + 1)}>
-                                    {page + 2}
-                                </a>
-                            </li>
-                            <li className='page-item'>
-                                <a className='page-link' onClick={() => setPage(page + 1)}>
-                                    Next
-                                </a>
-                            </li>
-                        </React.Fragment>
-                    ) : null}
+                    <li className={'page-item' + (page > 0 ? '' : ' disabled')}>
+                        <a className='page-link' onClick={() => setPage(page - 1)}>
+                            Previous
+                        </a>
+                    </li>
+                    <li className={'page-item' + (page > 0 ? '' : ' disabled')}>
+                        <a className='btn-width page-link' onClick={() => setPage(page - 1)}>
+                            {page > 0 ? page : <React.Fragment>&nbsp;</React.Fragment>}
+                        </a>
+                    </li>
+                    <li className='page-item active'>
+                        <a className='btn-width page-link active'>{page + 1}</a>
+                    </li>
+                    <li className={'page-item' + (page < totalPages - 1 ? '' : ' disabled')}>
+                        <a className='btn-width page-link' onClick={() => setPage(page + 1)}>
+                            {page + 2 < totalPages ? (
+                                page + 2
+                            ) : (
+                                <React.Fragment>&nbsp;</React.Fragment>
+                            )}
+                        </a>
+                    </li>
+                    <li className={'page-item' + (page < totalPages - 1 ? '' : ' disabled')}>
+                        <a className='page-link' onClick={() => setPage(page + 1)}>
+                            Next
+                        </a>
+                    </li>
+                    <li className='page-item'>
+                        <a className='page-link' onClick={() => setPage(totalPages - 1)}>
+                            Last
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <ReactEditList
@@ -98,7 +104,7 @@ export default function Simple() {
                     return true;
                 }}
                 className='table table-light table-fixed align-middle'
-                headClassName='table-dark'
+                headClassName='table-primary'
                 inputClassName='w-100'
                 thClassName={{
                     // These allow to fix the column widths
@@ -111,6 +117,8 @@ export default function Simple() {
                 btnValidateClassName='btn btn-success p-0 m-0'
                 btnDeleteClassName='btn btn-danger py-0 px-1 m-0 mx-1'
                 btnCancelClassName='btn btn-secondary py-0 px-1 m-0 mx-1'
+                // Adding is allowed only on the last page
+                disableInsert={page != totalPages - 1}
             />
         </div>
     );
