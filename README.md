@@ -6,12 +6,12 @@ Universal Editable List React Component
 
 `react-edit-list` allows for easy creation of editable lists in React that can be interfaced with a database
 
--   Fully customizable
--   Zero-dependency
--   Supports async callbacks for calling externals APIs
--   Supports input validation
--   Supports optional `null` fields
--   Supports custom field types
+*   Fully customizable
+*   Zero-dependency
+*   Supports async callbacks for calling externals APIs
+*   Supports input validation
+*   Supports optional `null` fields
+*   Supports custom field types
 
 # Installation
 
@@ -31,51 +31,56 @@ Refer to the [examples](https://mmomtchev.github.io/react-edit-list/)
 
 ### Table of Contents
 
--   [Element](#element)
--   [Schema](#schema)
--   [Row](#row)
--   [Props](#props)
-    -   [schema](#schema-1)
-    -   [onLoad](#onload)
-    -   [format](#format)
-    -   [edit](#edit)
-    -   [editProps](#editprops)
-    -   [headers](#headers)
-    -   [onChange](#onchange)
-    -   [onInsert](#oninsert)
-    -   [onUpdate](#onupdate)
-    -   [onDelete](#ondelete)
-    -   [defaultValues](#defaultvalues)
-    -   [className](#classname)
-    -   [btnValidateClassName](#btnvalidateclassname)
-    -   [btnDeleteClassName](#btndeleteclassname)
-    -   [btnCancelClassName](#btncancelclassname)
-    -   [headClassName](#headclassname)
-    -   [bodyClassName](#bodyclassname)
-    -   [trClassName](#trclassname)
-    -   [thClassName](#thclassname)
-    -   [tdClassName](#tdclassname)
-    -   [inputClassName](#inputclassname)
-    -   [btnValidateElement](#btnvalidateelement)
-    -   [btnDeleteElement](#btndeleteelement)
-    -   [btnCancelElement](#btncancelelement)
-    -   [disableUpdate](#disableupdate)
-    -   [disableDelete](#disabledelete)
-    -   [disableInsert](#disableinsert)
-    -   [tableElement](#tableelement)
-    -   [tbodyElement](#tbodyelement)
-    -   [theadElement](#theadelement)
-    -   [thElement](#thelement)
-    -   [trElement](#trelement)
-    -   [tdElement](#tdelement)
--   [ReactEditList](#reacteditlist)
-    -   [Parameters](#parameters)
+*   [Element](#element)
+*   [Schema](#schema)
+*   [Row](#row)
+*   [Props](#props)
+    *   [schema](#schema-1)
+    *   [onLoad](#onload)
+    *   [format](#format)
+        *   [Examples](#examples)
+    *   [edit](#edit)
+        *   [Examples](#examples-1)
+    *   [editProps](#editprops)
+    *   [headers](#headers)
+    *   [onChange](#onchange)
+    *   [onInsert](#oninsert)
+    *   [onUpdate](#onupdate)
+    *   [onDelete](#ondelete)
+    *   [defaultValues](#defaultvalues)
+    *   [className](#classname)
+    *   [btnValidateClassName](#btnvalidateclassname)
+    *   [btnDeleteClassName](#btndeleteclassname)
+    *   [btnCancelClassName](#btncancelclassname)
+    *   [headClassName](#headclassname)
+    *   [bodyClassName](#bodyclassname)
+    *   [trClassName](#trclassname)
+    *   [thClassName](#thclassname)
+    *   [tdClassName](#tdclassname)
+    *   [inputClassName](#inputclassname)
+    *   [btnValidateElement](#btnvalidateelement)
+    *   [btnDeleteElement](#btndeleteelement)
+    *   [btnCancelElement](#btncancelelement)
+    *   [disableUpdate](#disableupdate)
+    *   [disableDelete](#disabledelete)
+    *   [disableInsert](#disableinsert)
+    *   [tableElement](#tableelement)
+    *   [tbodyElement](#tbodyelement)
+    *   [theadElement](#theadelement)
+    *   [thElement](#thelement)
+    *   [trElement](#trelement)
+    *   [tdElement](#tdelement)
+    *   [filler](#filler)
+    *   [rowClassName](#rowclassname)
+    *   [insertClassName](#insertclassname)
+*   [ReactEditList](#reacteditlist)
+    *   [Parameters](#parameters)
 
 ## Element
 
 Field type
 
-`id` means a hidden element that will be carried on by react-edit-list without any processing
+`id` means a hidden field that will be carried on by react-edit-list without any processing
 
 `string` and `number` have default rendering and input components
 
@@ -117,13 +122,56 @@ Type: function (): ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Re
 
 Custom field formatters
 
+Each field formatter must be a React component
+
+It will receive the value to be rendered in `props.value`
+
 Type: Record<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), Formatter>
+
+#### Examples
+
+```javascript
+function DefaultFormatString(props: {value: Value}): JSX.Element {
+  return <React.Fragment>{props.value as string}</React.Fragment>;
+}
+```
 
 ### edit
 
 Custom field editors
 
+Each field editor must be a React component
+
+It will receive the previous value in `props.value` and
+should call `props.onChange` to update it
+
 Type: Record<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), Editor>
+
+#### Examples
+
+```javascript
+function DefaultEditString(props: {
+  value: Value;
+  opts?: unknown;
+  className?: string;
+  editProps?: Record<string, unknown>;
+  onChange: (v: Value) => void;
+}) {
+  const onChange = React.useCallback(
+    (e) => props.onChange(e.target.value != '' ? e.target.value : undefined),
+    [props]
+  );
+  return (
+    <input
+      className={props.className}
+      {...props.editProps}
+      value={props.value as string}
+      type='text'
+      onChange={onChange}
+    />
+  );
+}
+```
 
 ### editProps
 
@@ -141,7 +189,11 @@ Type: (Record<[string](https://developer.mozilla.org/docs/Web/JavaScript/Referen
 
 Called on every change with all the elements
 
-Return `boolean` to deny the operation
+Return `false` to deny the operation
+
+Return `true` to trigger a refresh through `onLoad`
+
+Return `undefined` for default behavior
 
 Type: function (data: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Row](#row)>): ([boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean) | void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<([boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean) | void)>)
 
@@ -149,7 +201,7 @@ Type: function (data: [Array](https://developer.mozilla.org/docs/Web/JavaScript/
 
 Called after insertion of a new element
 
-Return `boolean` to deny the operation
+Return `false` to deny the operation
 
 Return a new item to modify its contents
 
@@ -159,7 +211,7 @@ Type: function (item: [Row](#row)): ([boolean](https://developer.mozilla.org/doc
 
 Called after updating an existing element
 
-Return `boolean` to deny the operation
+Return `false` to deny the operation
 
 Return a new item to modify its contents
 
@@ -169,7 +221,7 @@ Type: function (updated: [Row](#row), old: [Row](#row)): ([boolean](https://deve
 
 Called after deleting an element
 
-Return `boolean` to deny the operation
+Return `false` to deny the operation
 
 Type: function (item: [Row](#row)): ([boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean) | void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<([boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean) | void)>)
 
@@ -277,39 +329,59 @@ Type: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 ### tableElement
 
-Element to use instead of table
+Element to use instead of <table>
 
-Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
 
 ### tbodyElement
 
-Element to use instead of tbody
+Element to use instead of <tbody>
 
-Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.FunctionComponent<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
 
 ### theadElement
 
-Element to use instead of thead
+Element to use instead of <thead>
 
-Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.FunctionComponent<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
 
 ### thElement
 
-Element to use instead of th
+Element to use instead of <th>
 
-Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.FunctionComponent<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}>)
 
 ### trElement
 
-Element to use instead of tr
+Element to use instead of <tr>
 
-Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, onKeyDown: function (e: React.KeyboardEvent): void?}>)
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.FunctionComponent<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, dataid: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?}>)
 
 ### tdElement
 
-Element to use instead of table
+Element to use instead of <td>
 
-Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.ComponentType<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, onClick: function (e: React.MouseEvent): void?}>)
+Element must accept mouse and keyboard input
+
+Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | React.FunctionComponent<{className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, onClick: function (e: React.MouseEvent): void?, onKeyDown: function (e: React.KeyboardEvent): void?}>)
+
+### filler
+
+Element to use for the empty row that allows adding a new item
+
+Type: JSX.Element
+
+### rowClassName
+
+Optional class to use for regular rows
+
+Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+### insertClassName
+
+Optional class to use for the empty row allowing insertion
+
+Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
 
 ## ReactEditList
 
@@ -317,6 +389,6 @@ An universal editable list for React
 
 ### Parameters
 
--   `props` **[Props](#props)** {Props}
+*   `props`  {Props}
 
-Returns **JSX.Element**
+Returns **JSX.Element** 
