@@ -12,7 +12,7 @@ describe('onInsert()', () => {
             recvItem = item;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onInsert={onInsert} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         const cells = r.container.querySelectorAll('td');
@@ -41,7 +41,7 @@ describe('onInsert()', () => {
             return Promise.resolve(false);
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onInsert={onInsert} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
 
         const cells = r.container.querySelectorAll('td');
@@ -70,7 +70,7 @@ describe('onInsert()', () => {
             return Promise.resolve({product: 'something different'});
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onInsert={onInsert} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
 
         const cells = r.container.querySelectorAll('td');
@@ -88,7 +88,7 @@ describe('onInsert()', () => {
         expect(recvItem.price).toBeUndefined();
         expect(recvItem.stock).toBeUndefined();
         await waitFor(() => expect(r.container.querySelectorAll('input')).toHaveLength(0));
-        await waitFor(() => expect(r.getByText(/something different/)));
+        await waitFor(() => expect(r.getByText('something different')));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
@@ -96,7 +96,7 @@ describe('onInsert()', () => {
     it('disableInsert', async () => {
         const onLoadFn = jest.fn(onLoad);
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} disableInsert={true} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
         const cells = r.container.querySelectorAll('td');
@@ -120,7 +120,7 @@ describe('onInsert()', () => {
                 filler={<span>...</span>}
             />
         );
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         fireEvent((await r.findAllByText('...'))[0], new MouseEvent('click', {bubbles: true}));

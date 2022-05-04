@@ -18,10 +18,10 @@ describe('onChange()', () => {
             recvItems = items;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -43,7 +43,7 @@ describe('onChange()', () => {
             recvItems = items;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         const cells = r.container.querySelectorAll('td');
@@ -69,10 +69,10 @@ describe('onChange()', () => {
             recvItems = items;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getAllByText(/^x$/)[0], new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getAllByText('x')[0], new MouseEvent('click', {bubbles: true}));
         await waitForElementToBeRemoved(() => r.getByText('Desk'));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -89,10 +89,10 @@ describe('onChange()', () => {
             return false;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -115,11 +115,11 @@ describe('onChange()', () => {
             return false;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getAllByText(/^x$/)[0], new MouseEvent('click', {bubbles: true}));
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        fireEvent(r.getAllByText('x')[0], new MouseEvent('click', {bubbles: true}));
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         await waitFor(() => expect(recvItems).toHaveLength(5));
@@ -135,7 +135,7 @@ describe('onChange()', () => {
             return false;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         const cells = r.container.querySelectorAll('td');
@@ -164,11 +164,11 @@ describe('onChange()', () => {
         const onLoadFn = jest.fn(onLoad);
 
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -194,12 +194,12 @@ describe('onChange()', () => {
         const onLoadFn = jest.fn(onLoad);
 
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getAllByText(/^x$/)[0], new MouseEvent('click', {bubbles: true}));
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        fireEvent(r.getAllByText('x')[0], new MouseEvent('click', {bubbles: true}));
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         await waitFor(() => expect(recvItems).toHaveLength(5));
@@ -218,7 +218,7 @@ describe('onChange()', () => {
         const onLoadFn = jest.fn(onLoad);
 
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} onChange={onChange} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
 

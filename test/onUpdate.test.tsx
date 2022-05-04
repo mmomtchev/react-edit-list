@@ -14,10 +14,10 @@ describe('onUpdate()', () => {
             oldItem = old;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -45,10 +45,10 @@ describe('onUpdate()', () => {
             return false;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -76,10 +76,10 @@ describe('onUpdate()', () => {
             return Promise.resolve(modified);
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -93,7 +93,7 @@ describe('onUpdate()', () => {
         expect(recvItem.price).toBe(100);
         expect(recvItem.stock).toBe(20);
         await waitFor(() => expect(r.container.querySelectorAll('input')).toHaveLength(0));
-        await waitFor(() => expect(r.getByText(/different/)));
+        await waitFor(() => expect(r.getByText('different')));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
@@ -123,10 +123,10 @@ describe('onUpdate()', () => {
                 onUpdate={onUpdate}
             />
         );
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(2));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -153,10 +153,10 @@ describe('onUpdate()', () => {
             oldItem = old;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -178,10 +178,10 @@ describe('onUpdate()', () => {
     it('onUpdate() cancel', async () => {
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => undefined);
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -198,10 +198,10 @@ describe('onUpdate()', () => {
     it('onUpdate() cancel w/keyboard', async () => {
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => undefined);
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(3));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -217,10 +217,10 @@ describe('onUpdate()', () => {
 
     it('disableUpdate', async () => {
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} disableUpdate={true} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getByText(/Desk/), new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getByText('Desk'), new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(r.container.querySelectorAll('input').length).toBe(0));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();

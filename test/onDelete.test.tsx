@@ -19,10 +19,10 @@ describe('onDelete()', () => {
             return Promise.resolve(undefined);
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onDelete={onDelete} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getAllByText(/^x$/)[0], new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getAllByText('x')[0], new MouseEvent('click', {bubbles: true}));
         await waitForElementToBeRemoved(() => r.queryByText('Desk'));
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -41,12 +41,12 @@ describe('onDelete()', () => {
             return false;
         });
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onDelete={onDelete} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
-        fireEvent(r.getAllByText(/^x$/)[0], new MouseEvent('click', {bubbles: true}));
+        fireEvent(r.getAllByText('x')[0], new MouseEvent('click', {bubbles: true}));
         await waitFor(() => expect(onDelete).toBeCalledTimes(1));
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
 
         expect(recvItem.product).toBe('Desk');
@@ -58,9 +58,9 @@ describe('onDelete()', () => {
 
     it('disableDelete', async () => {
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} disableDelete={true} />);
-        await waitFor(() => expect(r.getByText(/Desk/)).toBeInTheDocument());
+        await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
         expect(r.container.innerHTML).toMatchSnapshot();
-        expect(r.queryAllByText(/^x$/)).toHaveLength(0);
+        expect(r.queryAllByText('x')).toHaveLength(0);
         r.unmount();
     });
 });

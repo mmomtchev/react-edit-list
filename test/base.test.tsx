@@ -9,7 +9,7 @@ describe('base', () => {
     it('basic use', async () => {
         const onLoadFn = jest.fn(onLoad);
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -40,7 +40,7 @@ describe('base', () => {
                 btnCancelClassName='btn btn-secondary py-0 px-1 m-0 mx-1'
             />
         );
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(onLoadFn).toBeCalledTimes(2);
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
@@ -49,7 +49,7 @@ describe('base', () => {
     it('single custom classes', async () => {
         const onLoadFn = jest.fn(onLoad);
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
 
@@ -62,7 +62,7 @@ describe('base', () => {
                 trClassName={'trClass'}
             />
         );
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(onLoadFn).toBeCalledTimes(2);
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
@@ -71,7 +71,7 @@ describe('base', () => {
     it('sync loader', async () => {
         const onLoadFn = jest.fn(() => data);
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
@@ -79,7 +79,7 @@ describe('base', () => {
 
     it('no headers', async () => {
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} headers={null} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
@@ -95,7 +95,7 @@ describe('base', () => {
                 filler={<React.Fragment>...</React.Fragment>}
             />
         );
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
 
         fireEvent((await r.findAllByText('...'))[0], new MouseEvent('click', {bubbles: true}));
@@ -144,7 +144,7 @@ describe('base', () => {
                 btnCancelClassName='btn border px-1 m-0 mx-1'
             />
         );
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
@@ -153,7 +153,7 @@ describe('base', () => {
         const onLoadFn = jest.fn(onLoad);
         const ref = React.createRef<HTMLElement>();
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} ref={ref} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(onLoadFn).toBeCalledTimes(1);
         expect(r.container.innerHTML).toMatchSnapshot();
         expect(ref.current?.tagName.toLowerCase()).toBe('table');
@@ -167,7 +167,7 @@ describe('base', () => {
     it('externally triggered refresh', async () => {
         const onLoadFn = jest.fn(onLoad);
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} />);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
         expect(onLoadFn).toBeCalledTimes(1);
         await fireEvent.keyDown(r.container.querySelector('table')!, {
@@ -175,7 +175,7 @@ describe('base', () => {
             altKey: true
         });
         expect(onLoadFn).toBeCalledTimes(2);
-        await waitFor(() => expect(r.getByText(/Desk/)));
+        await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
