@@ -1,20 +1,17 @@
 # react-edit-list
 
-[![License: ISC](https://img.shields.io/github/license/mmomtchev/react-edit-list)](https://github.com/mmomtchev/react-edit-list/blob/main/LICENSE)
-[![npm version](https://img.shields.io/npm/v/react-edit-list)](https://www.npmjs.com/package/react-edit-list)
-[![Node.js CI](https://github.com/mmomtchev/react-edit-list/workflows/Node.js%20CI/badge.svg)](https://github.com/mmomtchev/react-edit-list/actions?query=workflow%3A%22Node.js+CI%22)
-[![codecov](https://codecov.io/gh/mmomtchev/react-edit-list/branch/main/graph/badge.svg?token=ZHVvNADJrZ)](https://codecov.io/gh/mmomtchev/react-edit-list)
+[![License: ISC](https://img.shields.io/github/license/mmomtchev/react-edit-list)](https://github.com/mmomtchev/react-edit-list/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/react-edit-list)](https://www.npmjs.com/package/react-edit-list) [![Node.js CI](https://github.com/mmomtchev/react-edit-list/workflows/Node.js%20CI/badge.svg)](https://github.com/mmomtchev/react-edit-list/actions?query=workflow%3A%22Node.js+CI%22) [![codecov](https://codecov.io/gh/mmomtchev/react-edit-list/branch/main/graph/badge.svg?token=ZHVvNADJrZ)](https://codecov.io/gh/mmomtchev/react-edit-list)
 
 Universal Editable List React Component
 
 `react-edit-list` allows for easy creation of editable lists in React that can be interfaced with a database
 
-*   Fully customizable
-*   Zero-dependency
-*   Supports async callbacks for calling externals APIs
-*   Supports input validation
-*   Supports optional `null` fields
-*   Supports custom field types
+-   Fully customizable
+-   Zero-dependency
+-   Supports async callbacks for calling externals APIs
+-   Supports input validation
+-   Supports optional `null` fields
+-   Supports custom field types
 
 # Installation
 
@@ -34,45 +31,45 @@ Refer to the [examples](https://mmomtchev.github.io/react-edit-list/)
 
 ### Table of Contents
 
-*   [Element](#element)
-*   [Schema](#schema)
-*   [Row](#row)
-*   [Props](#props)
-    *   [schema](#schema-1)
-    *   [onLoad](#onload)
-    *   [format](#format)
-    *   [edit](#edit)
-    *   [editProps](#editprops)
-    *   [headers](#headers)
-    *   [onChange](#onchange)
-    *   [onInsert](#oninsert)
-    *   [onUpdate](#onupdate)
-    *   [onDelete](#ondelete)
-    *   [defaultValues](#defaultvalues)
-    *   [className](#classname)
-    *   [btnValidateClassName](#btnvalidateclassname)
-    *   [btnDeleteClassName](#btndeleteclassname)
-    *   [btnCancelClassName](#btncancelclassname)
-    *   [headClassName](#headclassname)
-    *   [bodyClassName](#bodyclassname)
-    *   [trClassName](#trclassname)
-    *   [thClassName](#thclassname)
-    *   [tdClassName](#tdclassname)
-    *   [inputClassName](#inputclassname)
-    *   [btnValidateElement](#btnvalidateelement)
-    *   [btnDeleteElement](#btndeleteelement)
-    *   [btnCancelElement](#btncancelelement)
-    *   [disableUpdate](#disableupdate)
-    *   [disableDelete](#disabledelete)
-    *   [disableInsert](#disableinsert)
-    *   [tableElement](#tableelement)
-    *   [tbodyElement](#tbodyelement)
-    *   [theadElement](#theadelement)
-    *   [thElement](#thelement)
-    *   [trElement](#trelement)
-    *   [tdElement](#tdelement)
-*   [ReactEditList](#reacteditlist)
-    *   [Parameters](#parameters)
+-   [Element](#element)
+-   [Schema](#schema)
+-   [Row](#row)
+-   [Props](#props)
+    -   [schema](#schema-1)
+    -   [onLoad](#onload)
+    -   [format](#format)
+    -   [edit](#edit)
+    -   [editProps](#editprops)
+    -   [headers](#headers)
+    -   [onChange](#onchange)
+    -   [onInsert](#oninsert)
+    -   [onUpdate](#onupdate)
+    -   [onDelete](#ondelete)
+    -   [defaultValues](#defaultvalues)
+    -   [className](#classname)
+    -   [btnValidateClassName](#btnvalidateclassname)
+    -   [btnDeleteClassName](#btndeleteclassname)
+    -   [btnCancelClassName](#btncancelclassname)
+    -   [headClassName](#headclassname)
+    -   [bodyClassName](#bodyclassname)
+    -   [trClassName](#trclassname)
+    -   [thClassName](#thclassname)
+    -   [tdClassName](#tdclassname)
+    -   [inputClassName](#inputclassname)
+    -   [btnValidateElement](#btnvalidateelement)
+    -   [btnDeleteElement](#btndeleteelement)
+    -   [btnCancelElement](#btncancelelement)
+    -   [disableUpdate](#disableupdate)
+    -   [disableDelete](#disabledelete)
+    -   [disableInsert](#disableinsert)
+    -   [tableElement](#tableelement)
+    -   [tbodyElement](#tbodyelement)
+    -   [theadElement](#theadelement)
+    -   [thElement](#thelement)
+    -   [trElement](#trelement)
+    -   [tdElement](#tdelement)
+-   [ReactEditList](#reacteditlist)
+    -   [Parameters](#parameters)
 
 ## Element
 
@@ -320,6 +317,6 @@ An universal editable list for React
 
 ### Parameters
 
-*   `props` **[Props](#props)** {Props}
+-   `props` **[Props](#props)** {Props}
 
-Returns **JSX.Element** 
+Returns **JSX.Element**
