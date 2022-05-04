@@ -4,7 +4,7 @@ import React from 'react';
 import {HashRouter as Router, Route, Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
 
-import './example.css';
+import './app.css';
 
 const examples = {
     simple: {title: 'Simple', file: 'Simple'},

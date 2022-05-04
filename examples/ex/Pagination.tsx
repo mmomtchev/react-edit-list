@@ -29,7 +29,7 @@ for (let i = 0; i < 9995; i++) {
     });
 }
 
-const perPage = 50;
+const perPage = 20;
 
 export default function Simple() {
     const ref = React.useRef<HTMLElement>();

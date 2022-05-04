@@ -94,6 +94,7 @@ export default function Reordering() {
                 btnCancelClassName='btn btn-secondary py-0 px-1 m-0 mx-1'
                 rowClassName='draggable'
                 insertClassName='not-draggable'
+                filler={<React.Fragment>&#8230;</React.Fragment>}
             />
         </React.Fragment>
     );

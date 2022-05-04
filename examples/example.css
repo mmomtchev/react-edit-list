@@ -2,16 +2,6 @@
     table-layout: fixed;
 }
 
-.left-menu {
-    width: 10rem;
-}
-
-.left-menu button {
-    text-align: left;
-    font-weight: bold;
-    color: #333333;
-}
-
 .btn-width {
     width: 3rem;
     text-align: end;
