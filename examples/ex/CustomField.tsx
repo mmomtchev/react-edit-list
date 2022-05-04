@@ -32,15 +32,8 @@ export default function Dates() {
             onInsert={validate}
             onUpdate={validate}
             format={{
-                // You have to provide a custom React component for rendering the field
-                // As we can potentially have many hundreds of these, it is highly recommended
-                // to use useMemo / useCallback everywhere
                 birthdate: function BirthDateRenderer(props) {
-                    return (
-                        <React.Fragment>
-                            {React.useMemo<string>(() => display(props.value), [props.value])}
-                        </React.Fragment>
-                    );
+                    return <React.Fragment>{display(props.value)}</React.Fragment>;
                 }
             }}
             edit={{
@@ -48,14 +41,13 @@ export default function Dates() {
                 // react-edit-list will pass you the current value in `props.value`
                 // In order to modify it, you will have to call `props.onChange()`
                 birthdate: function BirthDateEditor(props) {
-                    const render = React.useMemo<string>(() => display(props.value), [props]);
                     const dropdown = React.useRef<HTMLDivElement>();
                     return (
                         // This is a simple Bootstrap 5 dropdown with manual control
                         <div className='w-100'>
                             {/* This is the always visible part */}
                             <input
-                                value={render}
+                                value={display(props.value)}
                                 readOnly
                                 onFocus={React.useCallback(
                                     // On focus, show the dropdown
