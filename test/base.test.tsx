@@ -165,7 +165,7 @@ describe('base', () => {
     });
 
     it('externally triggered refresh', async () => {
-        const onLoadFn = jest.fn(onLoad);
+        const onLoadFn = jest.fn(() => data);
         const r = render(<ReactEditList schema={schema} onLoad={onLoadFn} />);
         await waitFor(() => expect(r.getByText('Desk')));
         expect(r.container.innerHTML).toMatchSnapshot();
@@ -174,8 +174,8 @@ describe('base', () => {
             key: 'R',
             altKey: true
         });
-        expect(onLoadFn).toBeCalledTimes(2);
-        await waitFor(() => expect(r.getByText('Desk')));
+        await waitFor(() => expect(onLoadFn).toBeCalledTimes(2));
+        expect(r.getByText('Desk')).toBeInTheDocument();
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
