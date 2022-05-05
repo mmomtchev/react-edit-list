@@ -142,6 +142,7 @@ const ReactEditList = React.forwardRef(function ReactEditList(
                 )),
                 props.disableInsert ? null : (
                     <Item
+                        key='insert'
                         dataid={data.length}
                         {...sharedProps}
                         defaultValues={props.defaultValues}
