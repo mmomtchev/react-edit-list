@@ -6,7 +6,7 @@ import ReactEditList, * as REL from 'react-edit-list';
 import {schema, data, onLoad} from './data';
 
 describe('onUpdate()', () => {
-    it('onUpdate() undefined', async () => {
+    it('undefined', async () => {
         let recvItem: REL.Row = {};
         let oldItem: REL.Row = {};
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => {
@@ -36,7 +36,7 @@ describe('onUpdate()', () => {
         r.unmount();
     });
 
-    it('onUpdate() false', async () => {
+    it('false', async () => {
         let recvItem: REL.Row = {};
         let oldItem: REL.Row = {};
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): false => {
@@ -67,7 +67,7 @@ describe('onUpdate()', () => {
         r.unmount();
     });
 
-    it('onUpdate() replace', async () => {
+    it('replace', async () => {
         let recvItem: REL.Row = {};
         const onUpdate = jest.fn((item: REL.Row): Promise<REL.Row> => {
             recvItem = item;
@@ -98,7 +98,7 @@ describe('onUpdate()', () => {
         r.unmount();
     });
 
-    it('onUpdate() w/enum w/custom editor', async () => {
+    it('w/enum w/custom editor', async () => {
         let recvItem: REL.Row = {};
         let oldItem: REL.Row = {};
         const customSchema = [...schema];
@@ -145,7 +145,7 @@ describe('onUpdate()', () => {
         r.unmount();
     });
 
-    it('onUpdate() w/keyboard', async () => {
+    it('w/keyboard', async () => {
         let recvItem: REL.Row = {};
         let oldItem: REL.Row = {};
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => {
@@ -175,7 +175,7 @@ describe('onUpdate()', () => {
         r.unmount();
     });
 
-    it('onUpdate() cancel', async () => {
+    it('cancel', async () => {
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => undefined);
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
         await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());
@@ -195,7 +195,7 @@ describe('onUpdate()', () => {
         r.unmount();
     });
 
-    it('onUpdate() cancel w/keyboard', async () => {
+    it('cancel w/keyboard', async () => {
         const onUpdate = jest.fn((item: REL.Row, old: REL.Row): void => undefined);
         const r = render(<ReactEditList schema={schema} onLoad={onLoad} onUpdate={onUpdate} />);
         await waitFor(() => expect(r.getByText('Desk')).toBeInTheDocument());

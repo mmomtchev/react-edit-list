@@ -12,7 +12,7 @@ import ReactEditList, * as REL from 'react-edit-list';
 import {schema, data, onLoad} from './data';
 
 describe('onChange()', () => {
-    it('onChange() on update', async () => {
+    it('on update', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): void => {
             recvItems = items;
@@ -37,7 +37,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() on insert', async () => {
+    it('on insert', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): void => {
             recvItems = items;
@@ -63,7 +63,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() on delete', async () => {
+    it('on delete', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): void => {
             recvItems = items;
@@ -82,7 +82,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() return false on update', async () => {
+    it('return false on update', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): false => {
             recvItems = items;
@@ -108,7 +108,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() return false on delete', async () => {
+    it('return false on delete', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): false => {
             recvItems = items;
@@ -128,7 +128,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() return false on insert', async () => {
+    it('return false on insert', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): false => {
             recvItems = items;
@@ -155,7 +155,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() return true on update', async () => {
+    it('return true on update', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): true => {
             recvItems = items;
@@ -185,7 +185,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() return true on delete', async () => {
+    it('return true on delete', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): true => {
             recvItems = items;
@@ -209,7 +209,7 @@ describe('onChange()', () => {
         r.unmount();
     });
 
-    it('onChange() return true on insert', async () => {
+    it('return true on insert', async () => {
         let recvItems: REL.Row[] = [];
         const onChange = jest.fn((items: REL.Row[]): true => {
             recvItems = items;

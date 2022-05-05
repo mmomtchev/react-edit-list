@@ -6,7 +6,7 @@ import ReactEditList, * as REL from 'react-edit-list';
 import {schema, data, onLoad} from './data';
 
 describe('onInsert()', () => {
-    it('onInsert() undefined', async () => {
+    it('undefined', async () => {
         let recvItem: REL.Row = {};
         const onInsert = jest.fn((item: REL.Row): void => {
             recvItem = item;
@@ -23,18 +23,18 @@ describe('onInsert()', () => {
         const inputs = r.container.querySelectorAll('input');
         fireEvent.change(inputs[0], {target: {value: 'test item'}});
         fireEvent(await r.findByText('✓'), new MouseEvent('click', {bubbles: true}));
-        expect(onInsert).toBeCalledTimes(1);
+        await waitFor(() => expect(r.container.querySelectorAll('input')).toHaveLength(0));
 
-        await waitFor(() => expect(recvItem.product).toBe('test item'));
+        expect(onInsert).toBeCalledTimes(1);
+        expect(recvItem.product).toBe('test item');
         expect(recvItem.type).toBeUndefined();
         expect(recvItem.price).toBeUndefined();
         expect(recvItem.stock).toBeUndefined();
-        await waitFor(() => expect(r.container.querySelectorAll('input')).toHaveLength(0));
         expect(r.container.innerHTML).toMatchSnapshot();
         r.unmount();
     });
 
-    it('onInsert() false', async () => {
+    it('false', async () => {
         let recvItem: REL.Row = {};
         const onInsert = jest.fn((item: REL.Row): Promise<false> => {
             recvItem = item;
@@ -63,7 +63,7 @@ describe('onInsert()', () => {
         r.unmount();
     });
 
-    it('onInsert() false', async () => {
+    it('replace', async () => {
         let recvItem: REL.Row = {};
         const onInsert = jest.fn((item: REL.Row): Promise<REL.Row> => {
             recvItem = item;
@@ -106,7 +106,7 @@ describe('onInsert()', () => {
         r.unmount();
     });
 
-    it('onInsert() defaultValues and filler', async () => {
+    it('defaultValues and filler', async () => {
         let recvItem: REL.Row = {};
         const onInsert = jest.fn((item: REL.Row): void => {
             recvItem = item;

@@ -12,7 +12,7 @@ import ReactEditList, * as REL from 'react-edit-list';
 import {schema, data, onLoad} from './data';
 
 describe('onDelete()', () => {
-    it('onDelete() undefined', async () => {
+    it('undefined', async () => {
         let recvItem: REL.Row = {};
         const onDelete = jest.fn((item: REL.Row): Promise<void> => {
             recvItem = item;
@@ -34,7 +34,7 @@ describe('onDelete()', () => {
         r.unmount();
     });
 
-    it('onDelete() false', async () => {
+    it('false', async () => {
         let recvItem: REL.Row = {};
         const onDelete = jest.fn((item: REL.Row): false => {
             recvItem = item;
