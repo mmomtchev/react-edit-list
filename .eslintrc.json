@@ -68,5 +68,8 @@
                 "no-console": "off"
             }
         }
+    ],
+    "ignorePatterns": [
+        "webpack.config.ts"
     ]
 }

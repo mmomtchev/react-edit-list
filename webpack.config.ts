@@ -4,14 +4,22 @@ import webpack, {Configuration} from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import {TsconfigPathsPlugin} from 'tsconfig-paths-webpack-plugin';
+import * as React from 'react';
 
 const webpackConfig = (env): Configuration => {
+    let reactMajorVersion = +React.version.split('.')[0];
+    if (reactMajorVersion >= 18) {
+        console.log('React 18 detected');
+    } else {
+        console.log('React 16/17 detected');
+    }
+
     const conf: Configuration = {
-        entry: './examples/index.tsx',
+        entry: reactMajorVersion >= 18 ? './examples/index-react18.tsx' : './examples/index.tsx',
         ...(env.production || !env.development ? {} : {devtool: 'eval-source-map'}),
         resolve: {
             alias: {
-                'react-edit-list': path.resolve(__dirname, 'src')
+                rlayers: path.resolve(__dirname, 'src')
             },
             extensions: ['.ts', '.tsx', '.js'],
             //TODO waiting on https://github.com/dividab/tsconfig-paths-webpack-plugin/issues/61
@@ -32,12 +40,7 @@ const webpackConfig = (env): Configuration => {
                     options: {
                         transpileOnly: true,
                         configFile: 'examples/tsconfig.json'
-                    },
-                    exclude: /dist/
-                },
-                {
-                    test: /\.jsx$/,
-                    use: 'raw-loader'
+                    }
                 },
                 {
                     test: /\.css$/i,
@@ -63,16 +66,25 @@ const webpackConfig = (env): Configuration => {
                         DEBUG: !env.production || env.development
                     }
                 },
-                VERSION: JSON.stringify(require('./package.json').version)
+                VERSION: JSON.stringify(require('./package.json').version),
+                MAPBOX_TOKEN: JSON.stringify(process.env.MAPBOX_TOKEN)
             })
         ],
         devServer: {
-            port: 8030,
-            allowedHosts: ['all']
+            port: 8030
         }
     };
 
-    if (env.production) {
+    if (reactMajorVersion < 18) {
+        // This is needed for React 16/17 as otherwise ts-loader
+        // will pick `index-react18.tsx` and will fail transpiling it
+        conf.module.rules.unshift({
+            test: /index-react18\.tsx?$/,
+            loader: 'null-loader'
+        });
+    }
+
+    if (!env.development) {
         conf.plugins.push(
             new ForkTsCheckerWebpackPlugin({
                 eslint: {
