@@ -32,6 +32,19 @@ const schema: REL.Schema = [
 // Loading can be asynchronous
 const getData = () => Promise.resolve(data);
 
+// Every operation can be denied
+function isValid(item: REL.Row): boolean {
+    if (item.product === undefined || item.price === undefined) {
+        alert('Product and price are mandatory');
+        return false;
+    }
+    if (item.price > 2000) {
+        alert('Price is limited to 2000€');
+        return false;
+    }
+    return true;
+}
+
 export default function Advanced() {
     const ref = React.useRef<HTMLElement>();
     return (
@@ -54,25 +67,22 @@ export default function Advanced() {
                 onLoad={getData}
                 onUpdate={(item) => {
                     // The operation can be denied
-                    if (item.price > 2000) {
-                        alert('Price is limited to 2000€');
-                        return false;
-                    }
+                    if (!isValid(item)) return false;
+
                     // Call your API here
                     console.log('UPDATE', item);
                 }}
                 onDelete={(item) => {
                     // The operation can be denied
                     if (!confirm('Are you sure you want to delete it?')) return false;
+
                     // Call your API here
                     console.log('DELETE', item);
                 }}
                 onInsert={(item) => {
                     // The operation can be denied
-                    if (item.product === undefined || item.price === undefined) {
-                        alert('Product and price are mandatory');
-                        return false;
-                    }
+                    if (!isValid(item)) return false;
+
                     // Call your API here
                     console.log('INSERT', item);
 
