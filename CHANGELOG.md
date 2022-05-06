@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [1.1.1] WIP
 
 -   Render the examples in React 18 mode when available
+-   Add automatic loading to CodePen for the examples
 
 ## [1.1.0] 2021-05-04
 

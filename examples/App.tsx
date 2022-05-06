@@ -20,6 +20,7 @@ const examples = {
 
 const ReadmeBlock = React.lazy(() => import(/* webpackPrefetch: true */ './ReadmeBlock'));
 const CodeBlock = React.lazy(() => import(/* webpackPrefetch: true */ './CodeBlock'));
+const CodePenButton = React.lazy(() => import(/* webpackPrefetch: true */ './CodePenButton'));
 
 for (const ex of Object.keys(examples)) {
     examples[ex].comp = React.lazy(
@@ -28,6 +29,9 @@ for (const ex of Object.keys(examples)) {
     examples[ex].code = import(
         /* webpackPrefetch: true */ `!!html-loader?{"minimize":false}!./jsx-loader.ts!./ex/${examples[ex].file}.tsx`
     ).then((code) => code.default);
+    examples[ex].text = import(
+        /* webpackPrefetch: true */ `!!raw-loader!./ex/${examples[ex].file}.tsx`
+    ).then((text) => text.default);
 }
 
 const LeftMenuItem = (props): JSX.Element => (
@@ -38,7 +42,12 @@ const LeftMenuItem = (props): JSX.Element => (
     </Link>
 );
 
+// eslint-disable-next-line no-var
+declare var VERSION: string;
+
 const App = (): JSX.Element => {
+    const [jsText, setJSText] = React.useState<string>('');
+
     return (
         <Router>
             <h1 className='m-2'>
@@ -69,6 +78,12 @@ const App = (): JSX.Element => {
                                         </React.Suspense>
                                     </div>
                                     <div className='col-12 col-xl-7 codeblock'>
+                                        <React.Suspense fallback={<div>Reading code...</div>}>
+                                            <CodePenButton
+                                                title={examples[e].title}
+                                                text={examples[e].text}
+                                            />
+                                        </React.Suspense>
                                         <React.Suspense fallback={<div>Parsing code...</div>}>
                                             <CodeBlock code={examples[e].code} />
                                         </React.Suspense>
