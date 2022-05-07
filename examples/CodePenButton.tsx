@@ -26,7 +26,14 @@ const CodePenButton = React.memo(function _CodePenButton(props: {
     const ref = React.useRef<HTMLFormElement>();
 
     return (
-        <form ref={ref} action='https://codepen.io/pen/define' method='POST' target='_blank'>
+        <form
+            className='position-absolute my-2 mx-4'
+            style={{top: '0px', right: '0px'}}
+            ref={ref}
+            action='https://codepen.io/pen/define'
+            method='POST'
+            target='_blank'
+        >
             <input
                 type='hidden'
                 name='data'
@@ -39,11 +46,12 @@ const CodePenButton = React.memo(function _CodePenButton(props: {
                     js_external:
                         'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js',
                     css_external:
-                        'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css;https://unpkg.com/react-day-picker/dist/style.css'
+                        'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css;' +
+                        'https://unpkg.com/react-day-picker/dist/style.css'
                 })}
             />
             <button
-                className='btn border mb-2'
+                className='btn border mb-2 bg-light'
                 onClick={() => {
                     ref.current.submit();
                 }}

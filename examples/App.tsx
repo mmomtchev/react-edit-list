@@ -20,7 +20,6 @@ const examples = {
 
 const ReadmeBlock = React.lazy(() => import(/* webpackPrefetch: true */ './ReadmeBlock'));
 const CodeBlock = React.lazy(() => import(/* webpackPrefetch: true */ './CodeBlock'));
-const CodePenButton = React.lazy(() => import(/* webpackPrefetch: true */ './CodePenButton'));
 
 for (const ex of Object.keys(examples)) {
     examples[ex].comp = React.lazy(
@@ -77,15 +76,13 @@ const App = (): JSX.Element => {
                                             {React.createElement(examples[e].comp)}
                                         </React.Suspense>
                                     </div>
-                                    <div className='col-12 col-xl-7 codeblock'>
-                                        <React.Suspense fallback={<div>Reading code...</div>}>
-                                            <CodePenButton
+                                    <div className='col-12 col-xl-7'>
+                                        <React.Suspense fallback={<div>Parsing code...</div>}>
+                                            <CodeBlock
                                                 title={examples[e].title}
+                                                code={examples[e].code}
                                                 text={examples[e].text}
                                             />
-                                        </React.Suspense>
-                                        <React.Suspense fallback={<div>Parsing code...</div>}>
-                                            <CodeBlock code={examples[e].code} />
                                         </React.Suspense>
                                     </div>
                                 </div>
