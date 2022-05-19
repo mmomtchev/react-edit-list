@@ -1,5 +1,5 @@
 import React from 'react';
-import {cleanup, fireEvent, render, waitFor} from '@testing-library/react';
+import {fireEvent, render, waitFor} from '@testing-library/react';
 
 import ReactEditList, * as REL from 'react-edit-list';
 

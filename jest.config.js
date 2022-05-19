@@ -15,10 +15,7 @@ module.exports = {
         }
     },
     setupFiles: ['jest-canvas-mock'],
-    setupFilesAfterEnv: [
-        '@testing-library/react/dont-cleanup-after-each',
-        '@testing-library/jest-dom/extend-expect'
-    ],
+    setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
     testRegex: '/test/.*\\.test\\.tsx?$',
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     collectCoverage: true,
